@@ -1,0 +1,6 @@
+@BitesAndMore.API_HostAddress = http://localhost:5047
+
+GET {{BitesAndMore.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
