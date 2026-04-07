@@ -4,6 +4,7 @@ using BitesAndMore.API.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations.Operations;
 
 namespace BitesAndMore.API.Controllers
 {
@@ -67,7 +68,29 @@ namespace BitesAndMore.API.Controllers
                 return Ok(categoryfinder);
             }
 
-            return BadRequest(new { message = "that category dont exist!" });
+            return NotFound(new { message = "that category dont exist!" });
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateCategory(int id, [FromBody] CreateCategoryDto dto)
+        {
+            var categoryfinder = await _context.Categories.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (categoryfinder == null)
+            {
+                return NotFound(new {message = "that category dont exist!"});
+            }
+
+            categoryfinder.Name = dto.Name;
+            categoryfinder.Description = dto.Description;
+
+            await _context.SaveChangesAsync();
+
+            return Ok(new CategoryResponseDto
+            {
+                Name = categoryfinder.Name,
+                Description = categoryfinder.Description,
+            });
         }
 
         [HttpDelete("{id}")]
@@ -82,7 +105,7 @@ namespace BitesAndMore.API.Controllers
 
             }
 
-            return BadRequest(new { message = "that category dont exist!" });
+            return NotFound(new { message = "that category dont exist!" });
         }
 
     }
