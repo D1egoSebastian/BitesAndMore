@@ -1,8 +1,7 @@
-﻿namespace BitesAndMore.API.Models
+﻿namespace BitesAndMore.API.DTOs
 {
-    public class Services
+    public class CreateServiceDto
     {
-        public int Id { get; set; }
         public string? Name { get; set; }
         public string? Description { get; set; }
         public string? ImageUrl { get; set; }

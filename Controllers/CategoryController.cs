@@ -33,7 +33,7 @@ namespace BitesAndMore.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateCategoy([FromBody] CreateCategoryDto dto)
+        public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryDto dto)
         {
             var findcategoryname = await _context.Categories.FirstOrDefaultAsync(x => x.Name == dto.Name);
 
@@ -105,7 +105,7 @@ namespace BitesAndMore.API.Controllers
 
             }
 
-            return NotFound(new { message = "that category dont exist!" });
+            return NoContent();
         }
 
     }
