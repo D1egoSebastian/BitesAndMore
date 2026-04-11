@@ -4,6 +4,10 @@ using BitesAndMore.API.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace BitesAndMore.API.Controllers
 {
@@ -12,10 +16,12 @@ namespace BitesAndMore.API.Controllers
     public class AuthController : ControllerBase
     {
         private readonly AppDbContext _context;
+        private readonly IConfiguration _configuration;
 
-        public AuthController(AppDbContext context)
+        public AuthController(AppDbContext context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
         }
 
         [HttpPost("register")]
@@ -35,6 +41,9 @@ namespace BitesAndMore.API.Controllers
                 Email = dto.Email,
                 PasswordHash = passwordHashed
             };
+
+           await  _context.Users.AddAsync(newUser);
+            await _context.SaveChangesAsync();
 
             return Ok(new UserResponseDto
             {
@@ -61,12 +70,24 @@ namespace BitesAndMore.API.Controllers
                 return Unauthorized();
             }
 
-            return Ok(new UserResponseDto
-            {
-                Name = EmailExist.Name,
-                Email = EmailExist.Email,
-                PasswordHash = EmailExist.PasswordHash
-            });
+            var claims = new[]
+       {
+            new Claim(ClaimTypes.NameIdentifier, EmailExist.Id.ToString()),
+            new Claim(ClaimTypes.Email, EmailExist.Email),
+            new Claim(ClaimTypes.Name, EmailExist.Name)
+        };
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!));
+            var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            var token = new JwtSecurityToken(
+                issuer: _configuration["Jwt:Issuer"],
+                audience: _configuration["Jwt:Audience"],
+                claims: claims,
+                expires: DateTime.UtcNow.AddMinutes(60),
+                signingCredentials: credentials
+            );
+
+            return Ok(new { token = new JwtSecurityTokenHandler().WriteToken(token) });
         }
 
     }
