@@ -1,6 +1,7 @@
 ﻿using BitesAndMore.API.Data;
 using BitesAndMore.API.DTOs;
 using BitesAndMore.API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -32,6 +33,7 @@ namespace BitesAndMore.API.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> CreateService([FromBody] CreateServiceDto dto)
         {
             var findservice = await _context.Services.FirstOrDefaultAsync(x => x.Name == dto.Name);
@@ -73,6 +75,7 @@ namespace BitesAndMore.API.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> UpdateService(int id, [FromBody] CreateServiceDto dto)
         {
             var findservice = await _context.Services.FirstOrDefaultAsync(x => x.Id == id);
@@ -97,6 +100,7 @@ namespace BitesAndMore.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteService(int id)
         {
             var findservice = await _context.Services.FirstOrDefaultAsync(x => x.Id == id);

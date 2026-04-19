@@ -1,6 +1,7 @@
 ﻿using BitesAndMore.API.Data;
 using BitesAndMore.API.DTOs;
 using BitesAndMore.API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -34,6 +35,7 @@ namespace BitesAndMore.API.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> CreateProduct([FromBody] CreateProductDto dto)
         {
             var findproduct = await _context.Products.FirstOrDefaultAsync(x => x.Name == dto.Name);
@@ -79,6 +81,7 @@ namespace BitesAndMore.API.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> UpdateProduct(int id, [FromBody] CreateProductDto dto)
         {
             var findProduct = await _context.Products.FirstOrDefaultAsync(x => x.Id == id);
@@ -108,6 +111,7 @@ namespace BitesAndMore.API.Controllers
 
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteProduct(int id)
         {
             var findProduct = await _context.Products.FirstOrDefaultAsync(x => x.Id == id);

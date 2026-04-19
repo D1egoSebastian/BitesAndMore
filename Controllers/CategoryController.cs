@@ -1,6 +1,7 @@
 ﻿using BitesAndMore.API.Data;
 using BitesAndMore.API.DTOs;
 using BitesAndMore.API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -33,6 +34,7 @@ namespace BitesAndMore.API.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryDto dto)
         {
             var findcategoryname = await _context.Categories.FirstOrDefaultAsync(x => x.Name == dto.Name);
@@ -72,6 +74,7 @@ namespace BitesAndMore.API.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> UpdateCategory(int id, [FromBody] CreateCategoryDto dto)
         {
             var categoryfinder = await _context.Categories.FirstOrDefaultAsync(x => x.Id == id);
@@ -94,6 +97,7 @@ namespace BitesAndMore.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteCategory(int id)
         {
             var categoryfinder = await _context.Categories.FirstOrDefaultAsync(x => x.Id == id);
