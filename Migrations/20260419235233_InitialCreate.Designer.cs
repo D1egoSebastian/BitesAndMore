@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BitesAndMore.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260419194358_AddServicesTable")]
-    partial class AddServicesTable
+    [Migration("20260419235233_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -104,8 +104,11 @@ namespace BitesAndMore.API.Migrations
 
             modelBuilder.Entity("BitesAndMore.API.Models.User", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("text");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Email")
                         .HasColumnType("text");
