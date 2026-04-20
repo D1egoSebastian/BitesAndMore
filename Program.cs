@@ -44,6 +44,8 @@ builder.Services.AddAuthentication(options =>
 //To define (allow frontend petitions)
 builder.Services.AddCors(options => options.AddPolicy("AllowAll", builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
 
+builder.Services.AddAuthentication();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -56,6 +58,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
+app.UseAuthentication();
 app.MapControllers();
 app.UseCors("AllowAll");
 
