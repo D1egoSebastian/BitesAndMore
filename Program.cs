@@ -44,7 +44,7 @@ builder.Services.AddAuthentication(options =>
 //To define (allow frontend petitions)
 builder.Services.AddCors(options => options.AddPolicy("AllowAll", builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()));
 
-builder.Services.AddAuthentication();
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
