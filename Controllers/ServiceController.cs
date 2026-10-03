@@ -24,11 +24,6 @@ namespace BitesAndMore.API.Controllers
         {
             var services = await _context.Services.ToListAsync();
 
-            if (services == null || services.Count == 0)
-            {
-                return NotFound(new { message = "no services found!" });
-            }
-
             return Ok(services);
         }
 
@@ -48,17 +43,16 @@ namespace BitesAndMore.API.Controllers
                 Name = dto.Name,
                 Description = dto.Description,
                 ImageUrl = dto.ImageUrl,
+                Price = dto.Price,
+                ServiceType = dto.ServiceType,
             };
 
             _context.Services.Add(newService);
             await _context.SaveChangesAsync();
 
-            return Ok(new ServiceResponseDto
-            {
-                Name = newService.Name,
-                Description = newService.Description,
-                ImageUrl = newService.ImageUrl,
-            });
+            var response = ToResponse(newService);
+
+            return CreatedAtAction(nameof(GetServiceById), new { id = newService.Id }, response);
         }
 
         [HttpGet("{id}")]
@@ -88,15 +82,12 @@ namespace BitesAndMore.API.Controllers
             findservice.Name = dto.Name;
             findservice.Description = dto.Description;
             findservice.ImageUrl = dto.ImageUrl;
+            findservice.Price = dto.Price;
+            findservice.ServiceType = dto.ServiceType;
 
             await _context.SaveChangesAsync();
 
-            return Ok(new ServiceResponseDto
-            {
-                Name = findservice.Name,
-                Description = findservice.Description,
-                ImageUrl = findservice.ImageUrl,
-            });
+            return Ok(ToResponse(findservice));
         }
 
         [HttpDelete("{id}")]
@@ -115,6 +106,19 @@ namespace BitesAndMore.API.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        private static ServiceResponseDto ToResponse(Services service)
+        {
+            return new ServiceResponseDto
+            {
+                Id = service.Id,
+                Name = service.Name,
+                Description = service.Description,
+                ImageUrl = service.ImageUrl,
+                Price = service.Price,
+                ServiceType = service.ServiceType,
+            };
         }
     }
 }

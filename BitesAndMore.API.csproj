@@ -7,6 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <!-- The test project lives inside the API folder; keep its sources out of the API compilation. -->
+    <Compile Remove="BitesAndMore.API.Tests/**" />
+    <Content Remove="BitesAndMore.API.Tests/**" />
+    <EmbeddedResource Remove="BitesAndMore.API.Tests/**" />
+    <None Remove="BitesAndMore.API.Tests/**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.1.0" />
     <PackageReference Include="CloudinaryDotNet" Version="1.28.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.5" />

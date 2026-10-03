@@ -25,12 +25,7 @@ namespace BitesAndMore.API.Controllers
         {
             var categorieslist = await _context.Categories.ToListAsync();
 
-            if (categorieslist == null || categorieslist.Count == 0) {
-                return NotFound(new { message = "no categories to show" });
-            } else
-            {
-                return Ok(categorieslist);
-            }
+            return Ok(categorieslist);
         }
 
         [HttpPost]
@@ -53,11 +48,14 @@ namespace BitesAndMore.API.Controllers
             _context.Categories.Add(newCategory);
             await _context.SaveChangesAsync();
 
-            return Ok(new CategoryResponseDto
+            var response = new CategoryResponseDto
             {
+                Id = newCategory.Id,
                 Name = newCategory.Name,
                 Description = newCategory.Description,
-            });
+            };
+
+            return CreatedAtAction(nameof(GetCategoryById), new { id = newCategory.Id }, response);
         }
 
         [HttpGet("{id}")]
@@ -91,6 +89,7 @@ namespace BitesAndMore.API.Controllers
 
             return Ok(new CategoryResponseDto
             {
+                Id = categoryfinder.Id,
                 Name = categoryfinder.Name,
                 Description = categoryfinder.Description,
             });

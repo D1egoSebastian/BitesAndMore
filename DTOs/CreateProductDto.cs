@@ -1,4 +1,4 @@
-﻿using BitesAndMore.API.Models;
+using BitesAndMore.API.Models;
 
 namespace BitesAndMore.API.DTOs
 {
@@ -6,7 +6,7 @@ namespace BitesAndMore.API.DTOs
     {
         public string? Name { get; set; }
         public string? Description { get; set; }
-        public int? Price { get; set; }
+        public string? Price { get; set; }
         public string? imageUrl { get; set; }
         public int CategoryId { get; set; }
         //category model

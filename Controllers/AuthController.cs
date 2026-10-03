@@ -1,6 +1,6 @@
-﻿using BitesAndMore.API.Data;
+using BitesAndMore.API.Data;
 using BitesAndMore.API.DTOs;
-using BitesAndMore.API.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,6 +15,9 @@ namespace BitesAndMore.API.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
+        private const int DefaultTokenLifetimeMinutes = 480;
+        private const int MinPasswordLength = 8;
+
         private readonly AppDbContext _context;
         private readonly IConfiguration _configuration;
 
@@ -24,38 +27,14 @@ namespace BitesAndMore.API.Controllers
             _configuration = configuration;
         }
 
-        [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterDto dto)
-        {
-            var checkemail = await _context.Users.FirstOrDefaultAsync(u => u.Email == dto.Email);
-
-            if(checkemail != null)
-            {
-                return BadRequest(new { message = "that email already exist in db, try login!" });
-            }
-
-            var passwordHashed = BCrypt.Net.BCrypt.HashPassword(dto.PasswordHash);
-            var newUser = new User
-            {
-                Name = dto.Name,
-                Email = dto.Email,
-                PasswordHash = passwordHashed
-            };
-
-           await  _context.Users.AddAsync(newUser);
-            await _context.SaveChangesAsync();
-
-            return Ok(new UserResponseDto
-            {
-                Name = newUser.Name,
-                Email = newUser.Email,
-                PasswordHash = newUser.PasswordHash
-            });
-        }
-
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginDto login)
         {
+            if (string.IsNullOrEmpty(login.Email) || string.IsNullOrEmpty(login.Password))
+            {
+                return Unauthorized();
+            }
+
             var EmailExist = await _context.Users.FirstOrDefaultAsync(u => u.Email == login.Email);
 
             if(EmailExist == null)
@@ -63,7 +42,7 @@ namespace BitesAndMore.API.Controllers
                 return Unauthorized();
             }
 
-            var verifyPassword = BCrypt.Net.BCrypt.Verify(login.PasswordHash, EmailExist.PasswordHash);
+            var verifyPassword = BCrypt.Net.BCrypt.Verify(login.Password, EmailExist.PasswordHash);
 
             if (!verifyPassword)
             {
@@ -83,11 +62,53 @@ namespace BitesAndMore.API.Controllers
                 issuer: _configuration["Jwt:Issuer"],
                 audience: _configuration["Jwt:Audience"],
                 claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(60),
+                expires: DateTime.UtcNow.AddMinutes(GetTokenLifetimeMinutes()),
                 signingCredentials: credentials
             );
 
             return Ok(new { token = new JwtSecurityTokenHandler().WriteToken(token) });
+        }
+
+        [HttpPost("change-password")]
+        [Authorize]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordDto dto)
+        {
+            var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (!int.TryParse(userIdClaim, out var userId))
+            {
+                return Unauthorized();
+            }
+
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == userId);
+
+            if (user == null || string.IsNullOrEmpty(dto.CurrentPassword)
+                || !BCrypt.Net.BCrypt.Verify(dto.CurrentPassword, user.PasswordHash))
+            {
+                return Unauthorized();
+            }
+
+            if (string.IsNullOrWhiteSpace(dto.NewPassword) || dto.NewPassword.Length < MinPasswordLength)
+            {
+                return BadRequest(new { message = $"the new password must be at least {MinPasswordLength} characters long" });
+            }
+
+            if (dto.NewPassword == dto.CurrentPassword)
+            {
+                return BadRequest(new { message = "the new password must be different from the current one" });
+            }
+
+            user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(dto.NewPassword);
+            await _context.SaveChangesAsync();
+
+            return NoContent();
+        }
+
+        private int GetTokenLifetimeMinutes()
+        {
+            return int.TryParse(_configuration["Jwt:ExpiresMinutes"], out var minutes) && minutes > 0
+                ? minutes
+                : DefaultTokenLifetimeMinutes;
         }
 
     }
