@@ -43,7 +43,7 @@ export default async function AdminServicesPage() {
                 const price = displayPrice(service.price);
                 return (
                   <li key={service.id} className="grid grid-cols-[4rem_minmax(0,1fr)] gap-x-4 gap-y-3 py-4 sm:grid-cols-[4rem_minmax(0,1fr)_auto] sm:items-center">
-                    <MediaImage src={service.imageUrl} alt="" name={service.name} aspect="aspect-square" rounded="rounded-lg" sizes="64px" />
+                    <MediaImage src={service.imageUrl} alt="" name={service.name} aspect="aspect-square" rounded="rounded-lg" sizes="64px" fit="cover" />
                     <div className="min-w-0">
                       <p className="truncate font-semibold">{name}</p>
                       {price && <p className="text-sm text-muted">{price}</p>}

@@ -149,6 +149,16 @@
 }
 
 /*
+ * AdaptiveImage (spec 012): the photo stays hidden over the pastel tone until its fit (cover or
+ * contain) is known, then fades in. Without JavaScript it is simply shown.
+ */
+@media (scripting: enabled) {
+  [data-adaptive-image][data-ready="false"] {
+    opacity: 0;
+  }
+}
+
+/*
  * THE BITE — the single signature element, used only on the home hero.
  * Three overlapping circles punched out of the top-right corner, intersected. Positions and radii
  * use container units so the bite keeps its shape on any aspect ratio. --bite (0..1) animates it.

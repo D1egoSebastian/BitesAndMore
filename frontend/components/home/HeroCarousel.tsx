@@ -8,7 +8,6 @@ import {
   type MotionValue,
   type PanInfo,
 } from "framer-motion";
-import Image from "next/image";
 import Link from "next/link";
 import {
   useCallback,
@@ -25,6 +24,7 @@ import { CheckIcon, ChevronLeftIcon, ChevronRightIcon, PauseIcon, PlayIcon } fro
 import { swipeDirection, wrapSlideIndex, type HeroSlide } from "@/lib/hero-slides";
 import { duration, easeOut, exitDuration, spring } from "@/lib/motion";
 import { HeroBite } from "./HeroBite";
+import { AdaptiveImage } from "@/components/media/AdaptiveImage";
 import { usePrefersReducedMotion } from "@/components/motion/useReducedMotion";
 
 /** Time each slide stays on screen while autoplaying. */
@@ -34,7 +34,7 @@ const CROSSFADE_SECONDS = 0.7;
 /** Ken Burns: the visible photo slowly grows to this scale over its time on screen. */
 const KEN_BURNS_SCALE = 1.08;
 
-const IMAGE_SIZES = "(min-width: 1024px) 512px, (min-width: 768px) 45vw, 92vw";
+const IMAGE_SIZES = "(min-width: 1024px) 520px, (min-width: 768px) 45vw, (min-width: 552px) 520px, 92vw";
 
 function subscribeToVisibility(onChange: () => void) {
   document.addEventListener("visibilitychange", onChange);
@@ -283,15 +283,7 @@ function Slide({ slide, label, active, playing, reduceMotion, preload }: SlidePr
       }}
     >
       <motion.div className={active ? "absolute inset-0 will-change-transform" : "absolute inset-0"} style={{ scale }}>
-        <Image
-          src={slide.src}
-          alt={slide.alt}
-          fill
-          preload={preload}
-          draggable={false}
-          sizes={IMAGE_SIZES}
-          className="select-none object-cover"
-        />
+        <AdaptiveImage src={slide.src} alt={slide.alt} preload={preload} draggable={false} sizes={IMAGE_SIZES} />
       </motion.div>
     </motion.div>
   );

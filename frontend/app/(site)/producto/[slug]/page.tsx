@@ -82,7 +82,7 @@ export default async function ProductPage({ params }: PageProps<"/producto/[slug
           product={product}
           alt={name}
           preload
-          sizes="(min-width: 1152px) 540px, (min-width: 768px) 46vw, 92vw"
+          sizes="(min-width: 1200px) 520px, (min-width: 768px) 46vw, 92vw"
           rounded="rounded-[2rem]"
           className="media-enter"
         />

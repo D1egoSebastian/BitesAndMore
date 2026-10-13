@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
+import { AdaptiveImage } from "@/components/media/AdaptiveImage";
 import { OccasionArt } from "@/components/media/DessertArt";
 import { StaggerItem, StaggerList } from "@/components/motion/Reveal";
 import { SERVICE_TYPES, type Service, type ServiceType } from "@/lib/api/types";
@@ -53,13 +53,9 @@ export function OccasionTiles({ services }: { services: Service[] }) {
                 )}
               >
                 {cover ? (
-                  <Image
-                    src={cover}
-                    alt=""
-                    fill
-                    sizes={large ? "230px" : "120px"}
-                    className="rounded-3xl object-cover shadow-[0_14px_30px_-14px_rgb(59_37_34/0.45)]"
-                  />
+                  <div className="absolute inset-0 overflow-hidden rounded-3xl bg-white/40 shadow-[0_14px_30px_-14px_rgb(59_37_34/0.45)]">
+                    <AdaptiveImage src={cover} alt="" sizes={large ? "230px" : "136px"} />
+                  </div>
                 ) : (
                   <OccasionArt type={type} className="size-full" />
                 )}

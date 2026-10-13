@@ -24,7 +24,7 @@ export function ProductCard({ product, preload = false }: { product: Product; pr
           product={product}
           preload={preload}
           rounded="rounded-[1.25rem] sm:rounded-3xl"
-          sizes="(min-width: 1152px) 270px, (min-width: 640px) 31vw, 46vw"
+          sizes="(min-width: 1200px) 255px, (min-width: 1024px) 22vw, (min-width: 640px) 30vw, 46vw"
           imageClassName="transition-transform duration-600 ease-out-soft group-hover:scale-105"
         >
           <span

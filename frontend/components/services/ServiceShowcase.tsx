@@ -1,7 +1,6 @@
 "use client";
 
 import { animate, motion, useInView, useMotionValue, type PanInfo } from "framer-motion";
-import Image from "next/image";
 import Link from "next/link";
 import {
   createContext,
@@ -18,6 +17,7 @@ import {
   type PointerEvent,
   type ReactNode,
 } from "react";
+import { AdaptiveImage } from "@/components/media/AdaptiveImage";
 import { OccasionArt } from "@/components/media/DessertArt";
 import { Reveal } from "@/components/motion/Reveal";
 import { usePrefersReducedMotion } from "@/components/motion/useReducedMotion";
@@ -324,15 +324,8 @@ function Slide({ slide, label, active, playing, reduceMotion, preload }: SlidePr
       }}
     >
       <motion.div className={active ? "absolute inset-0 will-change-transform" : "absolute inset-0"} style={{ scale }}>
-        <Image
-          src={slide.src}
-          alt={slide.alt}
-          fill
-          preload={preload}
-          draggable={false}
-          sizes="100vw"
-          className="select-none object-cover"
-        />
+        {/* Full-bleed: small photos are shown whole over a blurred copy instead of being enlarged (spec 012). */}
+        <AdaptiveImage src={slide.src} alt={slide.alt} preload={preload} draggable={false} sizes="100vw" />
       </motion.div>
     </motion.div>
   );

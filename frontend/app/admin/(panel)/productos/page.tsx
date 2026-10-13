@@ -41,7 +41,7 @@ export default async function AdminProductsPage() {
             const price = displayPrice(product.price);
             return (
               <li key={product.id} className="grid grid-cols-[4rem_minmax(0,1fr)] gap-x-4 gap-y-3 py-4 sm:grid-cols-[4rem_minmax(0,1fr)_auto] sm:items-center">
-                <MediaImage src={product.imageUrl} alt="" name={product.name} aspect="aspect-square" rounded="rounded-lg" sizes="64px" />
+                <MediaImage src={product.imageUrl} alt="" name={product.name} aspect="aspect-square" rounded="rounded-lg" sizes="64px" fit="cover" />
                 <div className="min-w-0">
                   <p className="truncate font-semibold">{name}</p>
                   <p className="text-sm text-muted">

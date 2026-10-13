@@ -1,5 +1,5 @@
-import Image from "next/image";
 import type { ReactNode } from "react";
+import { AdaptiveImage } from "@/components/media/AdaptiveImage";
 import { CookieIcon } from "@/components/ui/icons";
 import { cn } from "@/lib/cn";
 import { TONE_BG, type Tone } from "@/lib/tones";
@@ -20,17 +20,20 @@ type MediaImageProps = {
   /** Illustration shown instead of the cookie and initial when there is no photo. */
   art?: ReactNode;
   className?: string;
-  /** Class for the <img> itself, e.g. the product card hover scale. */
+  /** Class for the photo layer, e.g. the product card hover scale. */
   imageClassName?: string;
   preload?: boolean;
+  /** "adaptive" (default, spec 012) or "cover" for small admin thumbnails. */
+  fit?: "adaptive" | "cover";
   /** Overlay rendered inside the frame, above the photo (e.g. the product card "Ver detalle" chip). */
   children?: ReactNode;
 };
 
 /**
  * Product and service photos: fixed aspect, 24 px radius, pastel placeholder when there is no
- * photo. `.svg` sources (the local mockups in /public/mock) are served as-is: next/image skips
- * optimization for them automatically.
+ * photo. The photo is an AdaptiveImage (spec 012): it covers the frame when it fits and is sharp
+ * enough, otherwise it is shown whole over a blurred copy of itself. `.svg` sources (the local
+ * mockups in /public/mock) are served as-is: next/image skips optimization for them automatically.
  */
 export function MediaImage({
   src,
@@ -44,12 +47,13 @@ export function MediaImage({
   className,
   imageClassName,
   preload,
+  fit,
   children,
 }: MediaImageProps) {
   return (
     <div className={cn("media-frame relative overflow-hidden", TONE_BG[tone], aspect, rounded, className)}>
       {src ? (
-        <Image src={src} alt={alt} fill sizes={sizes} preload={preload} className={cn("object-cover", imageClassName)} />
+        <AdaptiveImage src={src} alt={alt} sizes={sizes} preload={preload} fit={fit} className={imageClassName} />
       ) : (
         <ImagePlaceholder name={name} label={alt} art={art} tone={tone} />
       )}
