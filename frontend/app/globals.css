@@ -275,6 +275,23 @@
   animation: settle-in 450ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
 }
 
+/*
+ * Scroll reveals (components/motion/Reveal.tsx, spec 013). framer-motion writes their hidden start
+ * state into the server HTML as inline styles, and only JavaScript reveals them. With scripting off
+ * they stay visible, so the content is never lost. The connecting line of "Cómo pedir" is shown whole.
+ */
+@media (scripting: none) {
+  .scroll-reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .scroll-reveal-line {
+    stroke-dasharray: none !important;
+    stroke-dashoffset: 0 !important;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

@@ -2,13 +2,16 @@
 
 import { motion, type Variants } from "framer-motion";
 import type { ReactNode } from "react";
-import { duration, easeOut, revealViewport, spring, stagger } from "@/lib/motion";
 import { usePrefersReducedMotion } from "@/components/motion/useReducedMotion";
+import { cn } from "@/lib/cn";
+import { easeOut, reveal, revealTransition, revealViewport, scrollStagger, spring } from "@/lib/motion";
 
 /*
- * Scroll reveals for content below the fold. They run once, use transform/opacity only and
- * start from an offset that never changes the layout (no CLS). Above-the-fold entrances use
- * the CSS classes in globals.css instead, so they play before hydration.
+ * Scroll reveals for content below the fold (Notion-like): blocks rise 16 px and fade in once
+ * when they enter the viewport. They use transform/opacity only and never change the layout (no
+ * CLS). The start state is written into the server HTML by framer-motion, so globals.css shows
+ * the ".scroll-reveal" elements at once when JavaScript is off. Above-the-fold entrances use the
+ * CSS classes in globals.css instead, so they play before hydration.
  */
 
 type RevealProps = {
@@ -21,17 +24,17 @@ type RevealProps = {
 
 const revealElements = { div: motion.div, li: motion.li, section: motion.section };
 
-/** Fades a block in and lifts it 12 px when it scrolls into view (headings, rows). */
+/** Fades a block in and lifts it 16 px when it scrolls into view (headings, blocks). */
 export function Reveal({ children, className, as = "div", delay = 0 }: RevealProps) {
   const reduceMotion = usePrefersReducedMotion();
   const Element = revealElements[as];
   return (
     <Element
-      className={className}
-      initial={{ opacity: 0, y: 12 }}
+      className={cn("scroll-reveal", className)}
+      initial={{ opacity: 0, y: reveal.rise }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={revealViewport}
-      transition={{ duration: reduceMotion ? 0 : duration.slow, ease: easeOut, delay: reduceMotion ? 0 : delay }}
+      transition={revealTransition({ reduceMotion, delay })}
     >
       {children}
     </Element>
@@ -40,17 +43,17 @@ export function Reveal({ children, className, as = "div", delay = 0 }: RevealPro
 
 const listVariants: Variants = {
   hidden: {},
-  show: { transition: { staggerChildren: stagger, delayChildren: 0.05 } },
+  show: { transition: { staggerChildren: scrollStagger, delayChildren: 0.05 } },
 };
 
 const itemVariants: Record<"rise" | "scale", Variants> = {
   rise: {
-    hidden: { opacity: 0, y: 18 },
-    show: { opacity: 1, y: 0, transition: { duration: duration.slow, ease: easeOut } },
+    hidden: { opacity: 0, y: reveal.rise },
+    show: { opacity: 1, y: 0, transition: { duration: reveal.duration, ease: easeOut } },
   },
   scale: {
     hidden: { opacity: 0, scale: 0.94 },
-    show: { opacity: 1, scale: 1, transition: { scale: spring, opacity: { duration: duration.slow, ease: easeOut } } },
+    show: { opacity: 1, scale: 1, transition: { scale: spring, opacity: { duration: reveal.duration, ease: easeOut } } },
   },
 };
 
@@ -58,7 +61,7 @@ const itemVariants: Record<"rise" | "scale", Variants> = {
 const instantVariants: Variants = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { duration: 0 } } };
 const instantListVariants: Variants = { hidden: {}, show: {} };
 
-/** A list whose items enter one after another (40 ms apart) when it scrolls into view. */
+/** A list whose items enter one after another (70 ms apart) when it scrolls into view. */
 export function StaggerList({ children, className }: { children: ReactNode; className?: string }) {
   const reduceMotion = usePrefersReducedMotion();
   return (
@@ -74,7 +77,7 @@ export function StaggerList({ children, className }: { children: ReactNode; clas
   );
 }
 
-/** Item of a StaggerList: "rise" lifts it 18 px, "scale" grows it from 94% with a spring. */
+/** Item of a StaggerList: "rise" lifts it 16 px, "scale" grows it from 94% with a spring. */
 export function StaggerItem({
   children,
   className,
@@ -86,7 +89,10 @@ export function StaggerItem({
 }) {
   const reduceMotion = usePrefersReducedMotion();
   return (
-    <motion.li className={className} variants={reduceMotion ? instantVariants : itemVariants[variant]}>
+    <motion.li
+      className={cn("scroll-reveal", className)}
+      variants={reduceMotion ? instantVariants : itemVariants[variant]}
+    >
       {children}
     </motion.li>
   );

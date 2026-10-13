@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { OrderSteps } from "@/components/home/OrderSteps";
+import { Reveal } from "@/components/motion/Reveal";
 import { FacebookIcon, InstagramIcon, PhoneIcon, PinIcon, WhatsAppIcon } from "@/components/ui/icons";
 import { pageContainer, pageTitle, textLink } from "@/components/ui/styles";
 import { getBusinessInfo } from "@/lib/api/server";
 import { buildSocialUrl, buildWhatsAppContactUrl, socialLabel } from "@/lib/contact";
 import { displayText } from "@/lib/format";
+import { scrollStaggerDelay } from "@/lib/motion";
 
 export const revalidate = 60;
 
@@ -109,13 +111,15 @@ export default async function ContactPage() {
         </div>
 
         <aside aria-labelledby="como-funciona" className="self-start rounded-[2rem] bg-butter p-6 sm:p-8 md:mt-2">
-          <h2 id="como-funciona" className="text-2xl">
-            Cómo funcionan los pedidos
-          </h2>
-          <p className="mt-2 text-muted">No hay carrito ni pagos en línea: todo se coordina por mensaje.</p>
-          <div className="mt-6">
-            <OrderSteps hasWhatsApp={whatsApp !== null} variant="compact" headingLevel="p" />
-          </div>
+          <Reveal delay={scrollStaggerDelay(1)}>
+            <h2 id="como-funciona" className="text-2xl">
+              Cómo funcionan los pedidos
+            </h2>
+            <p className="mt-2 text-muted">No hay carrito ni pagos en línea: todo se coordina por mensaje.</p>
+            <div className="mt-6">
+              <OrderSteps hasWhatsApp={whatsApp !== null} variant="compact" headingLevel="p" />
+            </div>
+          </Reveal>
         </aside>
       </div>
     </div>

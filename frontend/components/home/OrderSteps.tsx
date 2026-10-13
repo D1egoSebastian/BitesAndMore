@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, type Transition, type Variants } from "framer-motion";
-import { duration, easeOut, revealViewport } from "@/lib/motion";
+import { duration, easeOut, reveal, revealViewport } from "@/lib/motion";
 import { usePrefersReducedMotion } from "@/components/motion/useReducedMotion";
 
 type OrderStepsProps = {
@@ -88,8 +88,8 @@ export function OrderSteps({ hasWhatsApp, variant = "wide", headingLevel = "h3" 
           show: { opacity: 1, scale: 1, transition: timed({ scale: POP, opacity: { duration: duration.fast } }, index) },
         };
         const text: Variants = {
-          hidden: { opacity: 0, y: 12 },
-          show: { opacity: 1, y: 0, transition: timed({ duration: duration.slow, ease: easeOut }, index, 0.1) },
+          hidden: { opacity: 0, y: reveal.rise },
+          show: { opacity: 1, y: 0, transition: timed({ duration: reveal.duration, ease: easeOut }, index, 0.1) },
         };
         const line: Variants = {
           hidden: { pathLength: 0 },
@@ -105,25 +105,25 @@ export function OrderSteps({ hasWhatsApp, variant = "wide", headingLevel = "h3" 
                   aria-hidden="true"
                   className="absolute left-[23px] top-[3.5rem] h-[calc(100%-2.75rem)] w-0.5 overflow-visible text-accent md:hidden"
                 >
-                  <motion.line x1="1" y1="0" x2="1" y2="100%" stroke="currentColor" strokeWidth="2" strokeLinecap="round" variants={line} />
+                  <motion.line x1="1" y1="0" x2="1" y2="100%" stroke="currentColor" strokeWidth="2" strokeLinecap="round" variants={line} className="scroll-reveal-line" />
                 </svg>
                 {/* Tablet and up: from the right of this badge to the left of the next one. */}
                 <svg
                   aria-hidden="true"
                   className="absolute left-[4rem] top-[27px] hidden h-0.5 w-[calc(100%-2rem)] overflow-visible text-accent md:block"
                 >
-                  <motion.line x1="0" y1="1" x2="100%" y2="1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" variants={line} />
+                  <motion.line x1="0" y1="1" x2="100%" y2="1" stroke="currentColor" strokeWidth="2" strokeLinecap="round" variants={line} className="scroll-reveal-line" />
                 </svg>
               </>
             )}
             <motion.span
               aria-hidden="true"
               variants={badge}
-              className={`font-display relative flex size-12 shrink-0 items-center justify-center rounded-full border-2 border-accent text-xl font-bold md:size-14 md:text-[1.375rem] ${BADGE_TONES[index % BADGE_TONES.length]}`}
+              className={`scroll-reveal font-display relative flex size-12 shrink-0 items-center justify-center rounded-full border-2 border-accent text-xl font-bold md:size-14 md:text-[1.375rem] ${BADGE_TONES[index % BADGE_TONES.length]}`}
             >
               {index + 1}
             </motion.span>
-            <motion.div variants={text} className="pt-1.5 md:pt-0">
+            <motion.div variants={text} className="scroll-reveal pt-1.5 md:pt-0">
               <Heading className="font-display text-xl font-bold md:text-2xl">
                 <span className="sr-only">Paso {index + 1}: </span>
                 {step.title}

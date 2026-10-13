@@ -3,8 +3,10 @@ import type { ReactNode } from "react";
 import type { BusinessInfo } from "@/lib/api/types";
 import { buildSocialUrl, buildWhatsAppContactUrl } from "@/lib/contact";
 import { displayText } from "@/lib/format";
+import { Reveal } from "@/components/motion/Reveal";
 import { FacebookIcon, InstagramIcon, PhoneIcon, WhatsAppIcon } from "@/components/ui/icons";
 import { buttonRose, pageContainer } from "@/components/ui/styles";
+import { scrollStaggerDelay } from "@/lib/motion";
 
 type FooterContact = { href: string; label: string; icon: ReactNode; external: boolean };
 
@@ -43,7 +45,8 @@ export function SiteFooter({ info, businessName }: { info: BusinessInfo | null; 
   return (
     <footer className="site-footer on-dark relative bg-cocoa text-white">
       <div className={`${pageContainer} grid gap-10 pb-10 pt-14 sm:grid-cols-2 sm:pt-[4.5rem] lg:grid-cols-[1.4fr_1fr_1fr] lg:gap-12`}>
-        <div className="flex flex-col items-start gap-4">
+        {/* The three blocks rise one after another as the footer comes into view (spec 013). */}
+        <Reveal className="flex flex-col items-start gap-4">
           <p className="font-display text-[1.875rem] font-bold leading-none sm:text-4xl">{businessName}</p>
           <p className="max-w-[36ch] text-white/80">Postres caseros por encargo.</p>
           {whatsApp && (
@@ -51,25 +54,27 @@ export function SiteFooter({ info, businessName }: { info: BusinessInfo | null; 
               Pedir por WhatsApp
             </a>
           )}
-        </div>
+        </Reveal>
 
-        <nav aria-labelledby="footer-nav">
-          <h2 id="footer-nav" className="font-sans text-base font-semibold tracking-normal">
-            Navegación
-          </h2>
-          <ul className="mt-2">
-            {NAV_LINKS.map((link) => (
-              <li key={link.href}>
-                <Link href={link.href} className={footerLink}>
-                  <LinkLabel>{link.label}</LinkLabel>
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
+        <Reveal delay={scrollStaggerDelay(1)}>
+          <nav aria-labelledby="footer-nav">
+            <h2 id="footer-nav" className="font-sans text-base font-semibold tracking-normal">
+              Navegación
+            </h2>
+            <ul className="mt-2">
+              {NAV_LINKS.map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href} className={footerLink}>
+                    <LinkLabel>{link.label}</LinkLabel>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </Reveal>
 
         {contacts.length > 0 && (
-          <div>
+          <Reveal delay={scrollStaggerDelay(2)}>
             <h2 className="font-sans text-base font-semibold tracking-normal">Contacto</h2>
             <ul className="mt-2">
               {contacts.map((contact) => (
@@ -85,7 +90,7 @@ export function SiteFooter({ info, businessName }: { info: BusinessInfo | null; 
                 </li>
               ))}
             </ul>
-          </div>
+          </Reveal>
         )}
       </div>
       <div className="border-t border-white/10">
