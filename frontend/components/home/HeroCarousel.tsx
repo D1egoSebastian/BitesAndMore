@@ -48,7 +48,8 @@ const isTabHiddenOnServer = () => false;
  * Home hero carousel inside THE BITE frame (WAI-ARIA carousel pattern).
  * Autoplays every 5 s with a crossfade and a slow Ken Burns zoom. Autoplay pauses while the
  * pointer is over it, while keyboard focus is inside it, while the tab is hidden, and with the
- * visible pause button; it never starts under prefers-reduced-motion. Slides change with the
+ * visible pause button. Under prefers-reduced-motion it still advances, without the zoom (ADR-028).
+ * Slides change with the
  * arrows, the dots, a swipe/drag or the left/right keys.
  */
 export function HeroCarousel({ slides }: { slides: HeroSlide[] }) {
@@ -61,7 +62,7 @@ export function HeroCarousel({ slides }: { slides: HeroSlide[] }) {
   const tabHidden = useSyncExternalStore(subscribeToVisibility, isTabHidden, isTabHiddenOnServer);
   const slidesId = useId();
 
-  const canAutoplay = count > 1 && !reduceMotion;
+  const canAutoplay = count > 1;
   const playing = canAutoplay && !userPaused && !hovered && !keyboardInside && !tabHidden;
 
   // 0..1 progress of the current slide; drives the timer and the active dot's fill.

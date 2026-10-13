@@ -79,8 +79,8 @@ export type ServiceCarouselProps = {
  * Full-width section of one service on /servicios (spec 011) following the WAI-ARIA carousel
  * pattern: the cover and gallery photos crossfade every 5.5 s with a slow Ken Burns zoom. Autoplay
  * pauses with the shared pause button, while the pointer is over the section, while keyboard focus
- * is inside it, while it is off screen and while the tab is hidden; it never starts with reduced
- * motion. Photos change with the dots, the arrows (from tablet up), a horizontal swipe or the
+ * is inside it, while it is off screen and while the tab is hidden. Under reduced motion it still
+ * advances, without the zoom (ADR-028). Photos change with the dots, the arrows (from tablet up), a horizontal swipe or the
  * left/right keys. Without photos the section is a pastel tile with the service type illustration.
  */
 export function ServiceCarousel({ anchor, name, type, description, price, cta, slides, preload }: ServiceCarouselProps) {
@@ -98,7 +98,7 @@ export function ServiceCarousel({ anchor, name, type, description, price, cta, s
 
   const isCarousel = count > 1;
   const manyPhotos = count > MAX_PHONE_DOTS;
-  const canAutoplay = isCarousel && !reduceMotion;
+  const canAutoplay = isCarousel;
   const playing = canAutoplay && !userPaused && !hovered && !keyboardInside && !tabHidden && onScreen;
 
   const progress = useMotionValue(0);
