@@ -2,7 +2,7 @@
 
 import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
 import Link from "next/link";
-import { useState, type CSSProperties } from "react";
+import { Suspense, useState, type CSSProperties } from "react";
 import { buttonSecondary, filterChip } from "@/components/ui/styles";
 import type { Product } from "@/lib/api/types";
 import { productCountLabel, type CategoryFilter } from "@/lib/catalog";
@@ -10,6 +10,7 @@ import { cn } from "@/lib/cn";
 import { duration, easeOut, exitDuration, spring } from "@/lib/motion";
 
 const STAGGER_CAP = 12;
+import { CATEGORY_PARAM, CategoryParamSync } from "./CategoryParamSync";
 import { ProductCard, productGrid } from "./ProductCard";
 import { usePrefersReducedMotion } from "@/components/motion/useReducedMotion";
 
@@ -17,15 +18,16 @@ type ProductCatalogProps = {
   /** Available products only. */
   products: Product[];
   filters: CategoryFilter[];
-  initialCategorySlug: string | null;
 };
 
 /**
  * Client-side filter over the server-fetched catalog. The selected category is mirrored in
- * the URL (?categoria=slug) so filtered views can be shared and reloaded.
+ * the URL (?categoria=slug) so filtered views can be shared and reloaded. The page is static
+ * (ISR), so the category in the URL is read on the client and applied after hydration; an
+ * unknown slug shows every product.
  */
-export function ProductCatalog({ products, filters, initialCategorySlug }: ProductCatalogProps) {
-  const [selected, setSelected] = useState<string | null>(initialCategorySlug);
+export function ProductCatalog({ products, filters }: ProductCatalogProps) {
+  const [selected, setSelected] = useState<string | null>(null);
   // The first render staggers the grid in (CSS); after a filter change items scale in together.
   const [hasFiltered, setHasFiltered] = useState(false);
   const reduceMotion = usePrefersReducedMotion();
@@ -37,8 +39,9 @@ export function ProductCatalog({ products, filters, initialCategorySlug }: Produ
     setSelected(slug);
     setHasFiltered(true);
     const url = new URL(window.location.href);
-    if (slug) url.searchParams.set("categoria", slug);
-    else url.searchParams.delete("categoria");
+    if (slug) url.searchParams.set(CATEGORY_PARAM, slug);
+    else url.searchParams.delete(CATEGORY_PARAM);
+    // Next.js syncs native history updates with useSearchParams (CategoryParamSync).
     window.history.replaceState(null, "", `${url.pathname}${url.search}`);
   }
 
@@ -56,6 +59,9 @@ export function ProductCatalog({ products, filters, initialCategorySlug }: Produ
 
   return (
     <>
+      <Suspense fallback={null}>
+        <CategoryParamSync onChange={setSelected} />
+      </Suspense>
       <div className="mt-8 flex flex-wrap items-center justify-between gap-x-5 gap-y-3 sm:mt-10">
         {filters.length > 0 ? (
           <LayoutGroup id="category-filter">

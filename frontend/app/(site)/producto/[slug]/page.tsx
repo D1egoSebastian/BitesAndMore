@@ -11,9 +11,18 @@ import { publicApi } from "@/lib/api/server";
 import { categorySlug, relatedProducts } from "@/lib/catalog";
 import { cn } from "@/lib/cn";
 import { displayPrice, displayText } from "@/lib/format";
+import { loadProductSlugParams } from "@/lib/static-params";
 import { TONE_BG, toneForCategory } from "@/lib/tones";
 
 export const revalidate = 60;
+
+/** Products created after the build are rendered on their first visit and then cached (ISR). */
+export const dynamicParams = true;
+
+/** Prerenders every visible product so visitors never wait on a sleeping API (ADR-024). */
+export function generateStaticParams() {
+  return loadProductSlugParams(() => publicApi.getProducts());
+}
 
 const RELATED_LIMIT = 4;
 
