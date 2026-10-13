@@ -13,6 +13,10 @@
     <Content Remove="BitesAndMore.API.Tests/**" />
     <EmbeddedResource Remove="BitesAndMore.API.Tests/**" />
     <None Remove="BitesAndMore.API.Tests/**" />
+    <Compile Remove="frontend/**" />
+    <Content Remove="frontend/**" />
+    <EmbeddedResource Remove="frontend/**" />
+    <None Remove="frontend/**" />
   </ItemGroup>
 
   <ItemGroup>

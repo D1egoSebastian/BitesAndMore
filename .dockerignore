@@ -4,3 +4,4 @@ obj/
 .git/
 BitesAndMore.API.Tests/
 *.user
+frontend/
