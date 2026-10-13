@@ -4,6 +4,7 @@ import { adminNote, adminPanel } from "@/components/ui/styles";
 import { useState } from "react";
 import { saveService } from "@/app/admin/(panel)/servicios/actions";
 import { SERVICE_TYPES, type Service } from "@/lib/api/types";
+import { SERVICE_MIN_LONG_SIDE } from "@/lib/admin/image-size";
 import { MAX_SERVICE_IMAGES } from "@/lib/service-gallery";
 import { serviceTypeLabel } from "@/lib/services";
 import { AdminForm } from "./AdminForm";
@@ -56,6 +57,7 @@ export function ServiceForm({ service }: { service: Service | null }) {
         initialUrl={service?.imageUrl ?? null}
         itemName={service?.name ?? null}
         onBusyChange={setUploading}
+        minLongSide={SERVICE_MIN_LONG_SIDE}
       />
       {!editing && (
         <p className={adminNote}>

@@ -1,7 +1,16 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useId, useRef, useState, useTransition, type ChangeEvent, type KeyboardEvent } from "react";
+import {
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  useTransition,
+  type ChangeEvent,
+  type KeyboardEvent,
+  type SyntheticEvent,
+} from "react";
 import { uploadImage } from "@/app/admin/actions";
 import {
   addServiceImageAction,
@@ -11,6 +20,7 @@ import {
 } from "@/app/admin/(panel)/servicios/gallery-actions";
 import { AlertIcon, CheckIcon, ChevronLeftIcon, ChevronRightIcon } from "@/components/ui/icons";
 import { adminNote, adminPanel, buttonQuiet, buttonSecondary, inputBase } from "@/components/ui/styles";
+import { SERVICE_MIN_LONG_SIDE, photoSizeWarning } from "@/lib/admin/image-size";
 import { prepareImageForUpload } from "@/lib/admin/resize-image";
 import type { ServiceImage } from "@/lib/api/types";
 import { cn } from "@/lib/cn";
@@ -22,6 +32,7 @@ import {
   sortServiceImages,
 } from "@/lib/service-gallery";
 import { ConfirmButton } from "./ConfirmButton";
+import { PhotoSizeNote } from "./PhotoSizeNote";
 import { useToast } from "./Toaster";
 
 type UploadStatus = "waiting" | "uploading" | "done" | "error";
@@ -209,7 +220,8 @@ export function ServiceGallery({ serviceId, images }: { serviceId: number; image
       </div>
       <p id={hintId} className="mt-2 max-w-[60ch] text-muted">
         Fotos de trabajos de este servicio. En la página de servicios se muestran después de la foto principal, en
-        este orden. Se guardan al momento: no hace falta pulsar «Guardar cambios».
+        este orden. Se guardan al momento: no hace falta pulsar «Guardar cambios». Cualquier foto sirve; las de
+        al menos {SERVICE_MIN_LONG_SIDE} px de ancho se ven más nítidas.
       </p>
 
       <div className="mt-5 flex flex-col items-start gap-2">
@@ -314,6 +326,14 @@ type GalleryRowProps = {
 
 function GalleryRow({ image, position, total, busy, onMove, onCaption, onDelete }: GalleryRowProps) {
   const captionId = useId();
+  const [size, setSize] = useState<{ width: number; height: number } | null>(null);
+  const sizeWarning = size ? photoSizeWarning({ ...size, minLongSide: SERVICE_MIN_LONG_SIDE }) : null;
+
+  // The thumbnail is unoptimized (the stored original, no srcset): its natural size is the photo's.
+  function onThumbnailLoad(event: SyntheticEvent<HTMLImageElement>) {
+    const { naturalWidth, naturalHeight } = event.currentTarget;
+    setSize({ width: naturalWidth, height: naturalHeight });
+  }
   const saving = useRef(false);
   const label = `foto ${position} de ${total}`;
 
@@ -341,8 +361,26 @@ function GalleryRow({ image, position, total, busy, onMove, onCaption, onDelete 
         <span aria-hidden="true" className="w-6 shrink-0 text-center font-semibold tabular-nums text-muted">
           {position}
         </span>
-        <div className="relative aspect-[4/3] w-28 shrink-0 overflow-hidden rounded-lg bg-surface">
-          <Image src={image.url} alt={image.caption ?? `Foto ${position} de la galería`} fill sizes="112px" unoptimized className="object-cover" />
+        <div className="flex w-28 shrink-0 flex-col gap-1">
+          <div className="relative aspect-[4/3] overflow-hidden rounded-lg bg-surface">
+            <Image
+              src={image.url}
+              alt={image.caption ?? `Foto ${position} de la galería`}
+              fill
+              sizes="112px"
+              unoptimized
+              onLoad={onThumbnailLoad}
+              className="object-cover"
+            />
+          </div>
+          <p className="min-h-4 text-center text-xs tabular-nums text-muted">
+            {size && (
+              <>
+                <span className="sr-only">Resolución: </span>
+                {size.width} × {size.height} px
+              </>
+            )}
+          </p>
         </div>
       </div>
 
@@ -360,6 +398,7 @@ function GalleryRow({ image, position, total, busy, onMove, onCaption, onDelete 
           onKeyDown={onKeyDown}
           className={cn(inputBase, "mt-1.5 min-h-11")}
         />
+        {sizeWarning && <PhotoSizeNote message={sizeWarning} className="mt-2" />}
       </div>
 
       <div className="flex items-center gap-1 sm:self-end">
