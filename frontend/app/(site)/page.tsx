@@ -8,6 +8,7 @@ import { OccasionTiles } from "@/components/home/OccasionTiles";
 import { OrderSteps } from "@/components/home/OrderSteps";
 import { Reveal, StaggerItem, StaggerList } from "@/components/motion/Reveal";
 import { buttonPrimary, buttonSecondary, navLink, pageContainer, sectionTitle } from "@/components/ui/styles";
+import { loadOrFallback } from "@/lib/api/build-fallback";
 import { getBusinessInfo, publicApi } from "@/lib/api/server";
 import { featuredProducts } from "@/lib/catalog";
 import { cn } from "@/lib/cn";
@@ -26,8 +27,8 @@ const NEUTRAL_SUBTEXT =
 export default async function HomePage() {
   const [info, products, services] = await Promise.all([
     getBusinessInfo(),
-    publicApi.getProducts(),
-    publicApi.getServices(),
+    loadOrFallback(() => publicApi.getProducts(), []),
+    loadOrFallback(() => publicApi.getServices(), []),
   ]);
 
   const mission = displayText(info?.mission);

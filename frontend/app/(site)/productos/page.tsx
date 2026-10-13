@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ProductCatalog } from "@/components/catalog/ProductCatalog";
 import { pageContainer, pageTitle } from "@/components/ui/styles";
+import { loadOrFallback } from "@/lib/api/build-fallback";
 import { publicApi } from "@/lib/api/server";
 import { availableProducts, buildCategoryFilters } from "@/lib/catalog";
 
@@ -16,7 +17,10 @@ export const metadata: Metadata = {
  * The ?categoria= filter is applied on the client by ProductCatalog (ADR-024).
  */
 export default async function ProductsPage() {
-  const [products, categories] = await Promise.all([publicApi.getProducts(), publicApi.getCategories()]);
+  const [products, categories] = await Promise.all([
+    loadOrFallback(() => publicApi.getProducts(), []),
+    loadOrFallback(() => publicApi.getCategories(), []),
+  ]);
 
   const available = availableProducts(products);
   // Only offer filters that lead somewhere: categories with at least one visible product.

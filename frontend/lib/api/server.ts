@@ -2,6 +2,7 @@ import "server-only";
 import { cache } from "react";
 import { API_URL, PUBLIC_REVALIDATE_SECONDS } from "../config";
 import { createApiClient } from "./client";
+import { loadOrFallback } from "./build-fallback";
 
 /** Cache tag shared by every public read, so admin writes can refresh the whole site at once. */
 export const CATALOG_TAG = "catalog";
@@ -13,7 +14,7 @@ export const publicApi = createApiClient({
 });
 
 /** Deduplicated per request: the layout and the page both need the business info. */
-export const getBusinessInfo = cache(() => publicApi.getBusinessInfo());
+export const getBusinessInfo = cache(() => loadOrFallback(() => publicApi.getBusinessInfo(), null));
 
 /** Admin reads always hit the API so the panel shows the current state. */
 export const adminReadApi = createApiClient({
