@@ -325,7 +325,7 @@ function Slide({ slide, label, active, playing, reduceMotion, preload }: SlidePr
     >
       <motion.div className={active ? "absolute inset-0 will-change-transform" : "absolute inset-0"} style={{ scale }}>
         {/* Full-bleed: small photos are shown whole over a blurred copy instead of being enlarged (spec 012). */}
-        <AdaptiveImage src={slide.src} alt={slide.alt} preload={preload} draggable={false} sizes="100vw" />
+        <AdaptiveImage src={slide.src} alt={slide.alt} preload={preload} draggable={false} sizes="100vw" fit="cover" />
       </motion.div>
     </motion.div>
   );
