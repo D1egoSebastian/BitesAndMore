@@ -77,6 +77,10 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
+// Liveness probe for the external keep-alive cron. Deliberately touches no services or database,
+// so pings keep the Render instance awake without waking the Neon compute.
+app.MapGet("/health", () => Results.Ok(new { status = "ok" })).AllowAnonymous();
+
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
