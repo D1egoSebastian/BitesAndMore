@@ -10,5 +10,7 @@ namespace BitesAndMore.API.DTOs
         public string? ImageUrl { get; set; }
         public string? Price { get; set; }
         public ServiceType ServiceType { get; set; }
+        /// <summary>Gallery photos, ordered by SortOrder then Id. The cover stays in ImageUrl.</summary>
+        public List<ServiceImageResponseDto> Images { get; set; } = new();
     }
 }

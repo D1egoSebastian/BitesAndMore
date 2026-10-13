@@ -8,5 +8,6 @@ namespace BitesAndMore.API.Models
         public string? ImageUrl { get; set; }
         public string? Price { get; set; }
         public ServiceType ServiceType { get; set; }
+        public ICollection<ServiceImage> Images { get; set; } = new List<ServiceImage>();
     }
 }

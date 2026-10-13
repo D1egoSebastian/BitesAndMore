@@ -13,6 +13,7 @@ namespace BitesAndMore.API.Data
         public DbSet<Services> Services { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<BusinessInfo> BusinessInfos { get; set; }
+        public DbSet<ServiceImage> ServiceImages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -24,6 +25,13 @@ namespace BitesAndMore.API.Data
             modelBuilder.Entity<BusinessInfo>()
                 .Property(b => b.Id)
                 .ValueGeneratedNever();
+
+            // Gallery photos belong to one service and are deleted with it.
+            modelBuilder.Entity<Services>()
+                .HasMany(s => s.Images)
+                .WithOne(i => i.Service)
+                .HasForeignKey(i => i.ServiceId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
