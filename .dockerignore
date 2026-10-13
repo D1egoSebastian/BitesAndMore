@@ -1,0 +1,6 @@
+bin/
+obj/
+.vs/
+.git/
+BitesAndMore.API.Tests/
+*.user
