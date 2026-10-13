@@ -21,11 +21,11 @@ export function BusinessForm({ info }: { info: BusinessInfo | null }) {
         id="mission"
         label="Misión"
         optional
-        hint="Aparece en la portada, debajo del título principal."
+        hint="Aparece en la portada, debajo del título principal y en la sección «Sobre nosotros»."
         rows={3}
         defaultValue={info?.mission ?? ""}
       />
-      <TextAreaField id="vision" label="Visión" optional hint="Aparece en la portada, en la sección «Sobre nosotras»." rows={3} defaultValue={info?.vision ?? ""} />
+      <TextAreaField id="vision" label="Visión" optional hint="Aparece en la portada, en la sección «Sobre nosotros»." rows={3} defaultValue={info?.vision ?? ""} />
       <TextField
         id="whatsAppNumber"
         label="Número de WhatsApp"

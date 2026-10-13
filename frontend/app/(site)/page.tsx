@@ -134,18 +134,29 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* The mission is already the hero subtext, so this block carries the vision and is omitted without one. */}
-      {vision && (
-        <section aria-labelledby="sobre-nosotras" className={`${pageContainer} pb-16 md:pb-24`}>
-          <Reveal className="grid gap-6 rounded-[2rem] bg-butter p-8 md:grid-cols-[0.8fr_1.2fr] md:gap-12 md:p-12">
-            <h2 id="sobre-nosotras" className={sectionTitle}>
-              Sobre nosotras
-            </h2>
-            <div>
-              <h3 className="font-sans text-lg font-semibold tracking-normal">Hacia dónde vamos</h3>
-              <p className="mt-2 max-w-[62ch] text-lg leading-relaxed">{vision}</p>
-            </div>
-          </Reveal>
+      {/*
+        Approved design (spec 011): heading and mission on the left, the vision on a butter tile on the
+        right (stacked on phones). The mission is also the hero subtext. Each part hides when its field is
+        empty, and the whole section when both are.
+      */}
+      {(mission || vision) && (
+        <section aria-labelledby="sobre-nosotros" className={`${pageContainer} pb-12 md:pb-24`}>
+          <div className={cn("grid gap-4 md:items-stretch md:gap-7", vision && "md:grid-cols-2")}>
+            <Reveal className="flex flex-col justify-center gap-3.5 md:pr-6">
+              <h2 id="sobre-nosotros" className={sectionTitle}>
+                Sobre nosotros
+              </h2>
+              {mission && (
+                <p className="max-w-[30em] whitespace-pre-line leading-relaxed text-muted md:text-lg">{mission}</p>
+              )}
+            </Reveal>
+            {vision && (
+              <Reveal delay={0.08} className="flex flex-col gap-2 rounded-3xl bg-butter p-6 md:gap-3 md:rounded-[2rem] md:p-10">
+                <h3 className="text-[1.375rem] md:text-[1.625rem]">Nuestra visión</h3>
+                <p className="max-w-[60ch] whitespace-pre-line leading-relaxed text-muted">{vision}</p>
+              </Reveal>
+            )}
+          </div>
         </section>
       )}
     </>

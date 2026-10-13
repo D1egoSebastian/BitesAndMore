@@ -19,6 +19,9 @@ export const buttonPrimarySmall = `${buttonBase} ${buttonLift} min-h-11 bg-prima
 /** Rose button for dark surfaces (footer) and the floating phone action. Cocoa text. */
 export const buttonRose = `${buttonBase} ${buttonLift} min-h-[3.25rem] bg-accent px-7 py-2.5 text-base text-foreground hover:bg-accent/90`;
 
+/** White button over photos (service carousels on /servicios): cocoa text. */
+export const buttonOnPhoto = `${buttonBase} ${buttonLift} min-h-[3.25rem] bg-white px-7 py-2.5 text-base text-foreground hover:bg-white/90`;
+
 /** Outlined secondary action: 2 px cocoa line, blush fill on hover. */
 export const buttonSecondary = `${buttonBase} ${buttonLift} min-h-[3.25rem] border-2 border-primary bg-transparent px-7 py-2 text-base text-foreground hover:bg-blush`;
 

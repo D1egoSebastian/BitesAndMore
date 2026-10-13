@@ -37,6 +37,19 @@ describe("toUserMessage", () => {
     expect(toUserMessage(new ApiError(404, "product not found"))).toMatch(/ya no existe/i);
   });
 
+  it("translates the service gallery validation messages", () => {
+    expect(toUserMessage(new ApiError(400, "the image url is required"))).toBe("Elige una foto antes de agregarla.");
+    expect(toUserMessage(new ApiError(400, "a service can have at most 12 images"))).toBe(
+      "La galería ya tiene 12 fotos, el máximo. Elimina alguna para agregar otra.",
+    );
+    expect(toUserMessage(new ApiError(400, "the order must list each image of the service exactly once"))).toBe(
+      "La galería cambió mientras la ordenabas. Recarga la página e inténtalo otra vez.",
+    );
+    expect(toUserMessage(new ApiError(404, "image not found"))).toBe(
+      "Esta foto ya no existe. Recarga la página para ver la galería actual.",
+    );
+  });
+
   it("handles unexpected non-API errors", () => {
     expect(toUserMessage(new Error("x"))).toMatch(/No pudimos completar/);
   });

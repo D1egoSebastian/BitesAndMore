@@ -1,56 +1,46 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { OccasionArt } from "@/components/media/DessertArt";
-import { MediaImage } from "@/components/media/MediaImage";
+import type { CSSProperties } from "react";
 import { Reveal } from "@/components/motion/Reveal";
+import { ServiceCarousel, ServiceCarouselProvider } from "@/components/services/ServiceShowcase";
 import { WhatsAppIcon } from "@/components/ui/icons";
-import { buttonSecondary, pageContainer, pageTitle, sectionTitle, textLink } from "@/components/ui/styles";
+import { buttonPrimary, pageContainer, pageTitle, textLink } from "@/components/ui/styles";
 import { getBusinessInfo, publicApi } from "@/lib/api/server";
-import { cn } from "@/lib/cn";
 import { buildWhatsAppContactUrl } from "@/lib/contact";
 import { displayPrice, displayText } from "@/lib/format";
-import { groupServicesByType } from "@/lib/services";
-import { toneForServiceType } from "@/lib/tones";
+import { buildServiceWhatsAppUrl, serviceShowcaseGroups } from "@/lib/service-gallery";
 
+// Static with ISR (spec 010): no searchParams or cookies here, so the build keeps this page as ○.
 export const revalidate = 60;
 
 export const metadata: Metadata = {
   title: "Servicios",
-  description: "Repostería por encargo, organización de eventos y desayunos personalizados.",
+  description: "Organización de eventos, desayunos personalizados y repostería por encargo.",
 };
+
+const chipClass =
+  "inline-flex min-h-11 shrink-0 items-center rounded-full border-[1.5px] border-border bg-white px-4 py-2 text-sm font-medium transition duration-200 ease-spring hover:border-accent hover:bg-blush active:scale-[0.97] sm:px-[1.125rem] sm:text-[0.9375rem] [touch-action:manipulation]";
 
 export default async function ServicesPage() {
   const [services, info] = await Promise.all([publicApi.getServices(), getBusinessInfo()]);
-  const groups = groupServicesByType(services);
+  const groups = serviceShowcaseGroups(services);
+  const sections = groups.flatMap((group) => group.sections);
+  const eventWhatsApp = buildWhatsAppContactUrl(info?.whatsAppNumber, "Hola! Quiero consultar por un evento");
 
   return (
-    <div className="pb-20">
-      <div className={`${pageContainer} pt-10 sm:pt-16`}>
-        <h1 className={pageTitle}>Servicios</h1>
-        <p className="mt-3 max-w-[34em] text-muted sm:mt-4 sm:text-lg">
-          Además de nuestros postres, te ayudamos a preparar tus celebraciones. Consulta disponibilidad y precio por
-          WhatsApp.
+    <div>
+      <div className={`${pageContainer} flex flex-col gap-3.5 pb-5 pt-5 sm:gap-5 sm:pb-12 sm:pt-16`}>
+        <h1 className={`${pageTitle} hero-reveal`}>Servicios</h1>
+        <p
+          className="hero-reveal max-w-[34em] text-[1.0625rem] leading-relaxed text-muted sm:text-[1.1875rem]"
+          style={{ "--delay": "100ms" } as CSSProperties}
+        >
+          <span className="hidden sm:inline">Además de nuestros postres, te ayudamos a preparar tus celebraciones. </span>
+          Mira algunos de nuestros trabajos y consulta disponibilidad y precio por WhatsApp.
         </p>
 
-        {groups.length > 1 && (
-          <nav aria-label="Tipos de servicio" className="mt-6">
-            <ul className="flex flex-wrap gap-2">
-              {groups.map((group) => (
-                <li key={group.type}>
-                  <a
-                    href={`#${group.anchor}`}
-                    className="inline-flex min-h-11 items-center rounded-full border-[1.5px] border-border bg-white px-[1.125rem] py-2 text-[0.9375rem] font-medium transition duration-200 ease-spring hover:-translate-y-px hover:border-accent active:scale-[0.97] [touch-action:manipulation]"
-                  >
-                    {group.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        )}
-
-        {groups.length === 0 && (
-          <p className="mt-10 max-w-[60ch]">
+        {sections.length === 0 && (
+          <p className="mt-4 max-w-[60ch]">
             Muy pronto publicaremos nuestros servicios. Mientras tanto,{" "}
             <Link href="/contacto" className={textLink}>
               escríbenos
@@ -60,67 +50,79 @@ export default async function ServicesPage() {
         )}
       </div>
 
-      {groups.map((group, groupIndex) => (
-        <section
-          key={group.type}
-          id={group.anchor}
-          aria-labelledby={`${group.anchor}-titulo`}
-          className={cn("scroll-mt-20 sm:scroll-mt-24", groupIndex % 2 === 1 ? "bg-surface" : "bg-white")}
+      {sections.length > 1 && (
+        <nav
+          aria-label="Servicios"
+          className="hero-reveal mx-auto w-full max-w-[75rem] pb-5 sm:px-6 sm:pb-12 lg:px-12"
+          style={{ "--delay": "200ms" } as CSSProperties}
         >
-          <div className={`${pageContainer} py-14 md:py-20`}>
-            <Reveal>
-              <h2 id={`${group.anchor}-titulo`} className={sectionTitle}>
-                {group.label}
-              </h2>
-            </Reveal>
-            <ul className="mt-10 flex flex-col gap-14 md:gap-20">
-              {group.services.map((service, index) => {
-                const name = service.name ?? group.label;
-                const price = displayPrice(service.price);
-                const description = displayText(service.description);
-                const whatsApp = buildWhatsAppContactUrl(info?.whatsAppNumber, `Hola! Me interesa ${name}`);
-                const imageRight = index % 2 === 1;
+          {/* Phones: one horizontal row that scrolls inside itself. Tablet up: chips wrap. */}
+          <ul className="flex gap-2 overflow-x-auto px-4 [scrollbar-width:none] sm:flex-wrap sm:gap-2.5 sm:overflow-visible sm:px-0">
+            {sections.map((section) => (
+              <li key={section.anchor} className="shrink-0">
+                <a href={`#${section.anchor}`} className={chipClass}>
+                  {section.name}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )}
 
-                return (
-                  <Reveal as="li" key={service.id} className="group grid items-center gap-6 md:grid-cols-2 md:gap-12 lg:gap-16">
-                    <MediaImage
-                      src={service.imageUrl}
-                      alt={name}
-                      name={service.name}
-                      aspect="aspect-[4/3]"
-                      rounded="rounded-[2rem]"
-                      tone={toneForServiceType(group.type)}
-                      art={<OccasionArt type={group.type} className="w-full" />}
-                      sizes="(min-width: 1152px) 540px, (min-width: 768px) 46vw, 92vw"
-                      imageClassName="transition-transform duration-700 ease-out-soft group-hover:scale-[1.03]"
-                      className={cn(imageRight && "md:order-2")}
+      {sections.length > 0 && (
+        <ServiceCarouselProvider>
+          <div className="flex flex-col gap-3 md:gap-4">
+            {groups.map((group) => (
+              // The type anchor (#events-planner, ...) is what the home page tiles link to.
+              <div key={group.type} id={group.anchor} className="flex scroll-mt-20 flex-col gap-3 sm:scroll-mt-24 md:gap-4">
+                {group.sections.map((section) => {
+                  const whatsApp = buildServiceWhatsAppUrl(info?.whatsAppNumber, section.name);
+                  return (
+                    <ServiceCarousel
+                      key={section.anchor}
+                      anchor={section.anchor}
+                      name={section.name}
+                      type={section.service.serviceType}
+                      description={displayText(section.service.description)}
+                      price={displayPrice(section.service.price)}
+                      cta={
+                        whatsApp
+                          ? { href: whatsApp, label: "Consultar por WhatsApp", external: true }
+                          : { href: "/contacto", label: "Consultar", external: false }
+                      }
+                      slides={section.slides}
+                      preload={section === sections[0]}
                     />
-                    <div>
-                      <h3 className="text-2xl sm:text-[1.75rem]">{name}</h3>
-                      {price && <p className="mt-2 text-lg font-semibold">{price}</p>}
-                      {description && (
-                        <p className="mt-4 max-w-[60ch] whitespace-pre-line leading-relaxed">{description}</p>
-                      )}
-                      <div className="mt-6">
-                        {whatsApp ? (
-                          <a href={whatsApp} target="_blank" rel="noopener noreferrer" className={buttonSecondary}>
-                            <WhatsAppIcon />
-                            Consultar por WhatsApp
-                          </a>
-                        ) : (
-                          <Link href="/contacto" className={buttonSecondary}>
-                            Consultar
-                          </Link>
-                        )}
-                      </div>
-                    </div>
-                  </Reveal>
-                );
-              })}
-            </ul>
+                  );
+                })}
+              </div>
+            ))}
           </div>
-        </section>
-      ))}
+        </ServiceCarouselProvider>
+      )}
+
+      <section aria-labelledby="evento" className={`${pageContainer} py-10 md:py-24`}>
+        <Reveal className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between md:gap-8">
+          <div className="flex max-w-[36em] flex-col gap-2.5">
+            <h2 id="evento" className="text-[1.875rem] leading-[1.05] md:text-[2.75rem]">
+              ¿Tienes un evento en mente?
+            </h2>
+            <p className="text-muted md:text-lg">
+              Cuéntanos la fecha, el número de invitados y la idea. Te respondemos con una propuesta y el precio.
+            </p>
+          </div>
+          {eventWhatsApp ? (
+            <a href={eventWhatsApp} target="_blank" rel="noopener noreferrer" className={`${buttonPrimary} shrink-0`}>
+              <WhatsAppIcon />
+              Escríbenos por WhatsApp
+            </a>
+          ) : (
+            <Link href="/contacto" className={`${buttonPrimary} shrink-0`}>
+              Ver formas de contacto
+            </Link>
+          )}
+        </Reveal>
+      </section>
     </div>
   );
 }

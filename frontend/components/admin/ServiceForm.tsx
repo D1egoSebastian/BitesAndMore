@@ -1,9 +1,10 @@
 "use client";
 
-import { adminPanel } from "@/components/ui/styles";
+import { adminNote, adminPanel } from "@/components/ui/styles";
 import { useState } from "react";
 import { saveService } from "@/app/admin/(panel)/servicios/actions";
 import { SERVICE_TYPES, type Service } from "@/lib/api/types";
+import { MAX_SERVICE_IMAGES } from "@/lib/service-gallery";
 import { serviceTypeLabel } from "@/lib/services";
 import { AdminForm } from "./AdminForm";
 import { SelectField, TextAreaField, TextField } from "./Field";
@@ -51,11 +52,17 @@ export function ServiceForm({ service }: { service: Service | null }) {
       <TextAreaField id="description" label="Descripción" optional defaultValue={service?.description ?? ""} />
       <ImageUpload
         name="imageUrl"
-        label="Foto"
+        label="Foto principal"
         initialUrl={service?.imageUrl ?? null}
         itemName={service?.name ?? null}
         onBusyChange={setUploading}
       />
+      {!editing && (
+        <p className={adminNote}>
+          <span className="font-semibold">Galería:</span> después de crear el servicio podrás agregar hasta{" "}
+          {MAX_SERVICE_IMAGES} fotos de trabajos desde la página de edición.
+        </p>
+      )}
     </AdminForm>
   );
 }

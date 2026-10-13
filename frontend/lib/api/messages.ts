@@ -9,6 +9,11 @@ const KNOWN_API_MESSAGES: Record<string, string> = {
   "the new password must be at least 8 characters long": "La nueva contraseña debe tener al menos 8 caracteres.",
   "the new password must be different from the current one": "La nueva contraseña debe ser distinta de la actual.",
   "no file provided": "Elige una imagen antes de subirla.",
+  "the image url is required": "Elige una foto antes de agregarla.",
+  "a service can have at most 12 images": "La galería ya tiene 12 fotos, el máximo. Elimina alguna para agregar otra.",
+  "the order must list each image of the service exactly once":
+    "La galería cambió mientras la ordenabas. Recarga la página e inténtalo otra vez.",
+  "image not found": "Esta foto ya no existe. Recarga la página para ver la galería actual.",
 };
 
 /** Turns any thrown value into a Spanish message that explains what happened. */

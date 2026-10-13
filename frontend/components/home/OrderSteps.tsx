@@ -21,13 +21,13 @@ const POP = { type: "spring", stiffness: 380, damping: 18 } as const;
 function orderSteps(hasWhatsApp: boolean) {
   return [
     {
-      title: "Elige tu postre",
-      body: "Mira el catálogo y filtra por categoría hasta encontrar lo que quieres.",
+      title: "Elige tu postre o servicio",
+      body: "Mira el catálogo de postres o los servicios para tu evento y elige lo que necesitas.",
     },
     {
-      title: hasWhatsApp ? "Escríbenos por WhatsApp" : "Escríbenos con el nombre del producto",
+      title: hasWhatsApp ? "Escríbenos por WhatsApp" : "Escríbenos con el nombre del producto o servicio",
       body: hasWhatsApp
-        ? "Con un clic se abre el chat con el nombre del producto ya escrito."
+        ? "Con un clic se abre el chat con el producto o servicio ya escrito."
         : "Usa los datos de la página de contacto y cuéntanos qué te gustaría.",
     },
     {

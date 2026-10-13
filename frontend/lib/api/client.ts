@@ -7,6 +7,8 @@ import type {
   Product,
   ProductInput,
   Service,
+  ServiceImage,
+  ServiceImageInput,
   ServiceInput,
 } from "./types";
 
@@ -20,7 +22,7 @@ export interface ApiClientOptions {
   fetchImpl?: typeof fetch;
 }
 
-type Method = "GET" | "POST" | "PUT" | "DELETE";
+type Method = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
 async function readApiMessage(response: Response): Promise<string | null> {
   try {
@@ -112,6 +114,16 @@ export function createApiClient({ baseUrl, token, readInit, fetchImpl = fetch }:
     createService: (input: ServiceInput) => request<Service>("POST", "/api/service", input),
     updateService: (id: number, input: ServiceInput) => request<Service>("PUT", `/api/service/${id}`, input),
     deleteService: (id: number) => request<void>("DELETE", `/api/service/${id}`),
+
+    addServiceImage: (serviceId: number, input: ServiceImageInput) =>
+      request<ServiceImage>("POST", `/api/service/${serviceId}/images`, input),
+    updateServiceImageCaption: (serviceId: number, imageId: number, caption: string | null) =>
+      request<ServiceImage>("PATCH", `/api/service/${serviceId}/images/${imageId}`, { caption }),
+    deleteServiceImage: (serviceId: number, imageId: number) =>
+      request<void>("DELETE", `/api/service/${serviceId}/images/${imageId}`),
+    /** imageIds must list every photo of the service exactly once, in the new order. */
+    reorderServiceImages: (serviceId: number, imageIds: number[]) =>
+      request<void>("PUT", `/api/service/${serviceId}/images/order`, { imageIds }),
 
     updateBusinessInfo: (input: BusinessInfoInput) => request<BusinessInfo>("PUT", "/api/businessinfo", input),
 

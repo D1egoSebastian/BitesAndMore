@@ -211,3 +211,45 @@ describe("createApiClient: error mapping", () => {
     expect(error.isNetworkError).toBe(true);
   });
 });
+
+describe("createApiClient: service gallery", () => {
+  const image = { id: 5, url: "https://img.test/a.jpg", caption: "Mesa", sortOrder: 1 };
+
+  it("adds a photo with POST /api/service/{id}/images", async () => {
+    const { fetchImpl, calls } = mockFetch(jsonResponse(201, image));
+    const api = createApiClient({ baseUrl: "http://api.test", token: "jwt", fetchImpl });
+
+    const created = await api.addServiceImage(3, { url: "https://img.test/a.jpg", caption: "Mesa" });
+
+    expect(created).toEqual(image);
+    expect(calls[0].url).toBe("http://api.test/api/service/3/images");
+    expect(calls[0].init.method).toBe("POST");
+    expect(JSON.parse(String(calls[0].init.body))).toEqual({ url: "https://img.test/a.jpg", caption: "Mesa" });
+  });
+
+  it("changes a caption with PATCH and a JSON body", async () => {
+    const { fetchImpl, calls } = mockFetch(jsonResponse(200, { ...image, caption: null }));
+    const api = createApiClient({ baseUrl: "http://api.test", token: "jwt", fetchImpl });
+
+    await api.updateServiceImageCaption(3, 5, null);
+
+    expect(calls[0].url).toBe("http://api.test/api/service/3/images/5");
+    expect(calls[0].init.method).toBe("PATCH");
+    expect(new Headers(calls[0].init.headers).get("Content-Type")).toBe("application/json");
+    expect(JSON.parse(String(calls[0].init.body))).toEqual({ caption: null });
+  });
+
+  it("deletes a photo and reorders the gallery", async () => {
+    const { fetchImpl, calls } = mockFetch(jsonResponse(204), jsonResponse(204));
+    const api = createApiClient({ baseUrl: "http://api.test", token: "jwt", fetchImpl });
+
+    await api.deleteServiceImage(3, 5);
+    await api.reorderServiceImages(3, [7, 5, 6]);
+
+    expect(calls[0].url).toBe("http://api.test/api/service/3/images/5");
+    expect(calls[0].init.method).toBe("DELETE");
+    expect(calls[1].url).toBe("http://api.test/api/service/3/images/order");
+    expect(calls[1].init.method).toBe("PUT");
+    expect(JSON.parse(String(calls[1].init.body))).toEqual({ imageIds: [7, 5, 6] });
+  });
+});
