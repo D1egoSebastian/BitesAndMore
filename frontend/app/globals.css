@@ -1,27 +1,27 @@
 @import "tailwindcss";
 
 /*
- * Design system (see ../docs/design-system.md, ADR-020).
- * White page; soft pastel tiles (blush, butter, sage, lilac, sugar) are the colour system;
- * cocoa for text and primary buttons; rose (pink) as the accent. Pink is never text and never
- * a full-page background.
+ * Design system (see ../docs/design-system.md, v4.0, ADR-029).
+ * Brand palette: cocoa, raspberry, rose, caramel and sand. White page; sand surfaces; tints of the
+ * brand colours for the pastel tiles. Cocoa for text and primary buttons; raspberry for links,
+ * the logo, errors and the WhatsApp button. Rose and caramel are accents: never text on sand.
  */
 :root {
   --white: #ffffff;
-  --sugar: #f7f3f0; /* alternate bands, inputs, neutral placeholders, admin surfaces */
-  --line: #e7ddd8; /* borders and dividers */
-  --cocoa: #3b2522; /* text, primary buttons, footer (14.2:1 on white) */
-  --cocoa-muted: #6b5a55; /* secondary text (6.5:1 on white, 5.9:1 on sugar) */
-  --pink: #e8a3b4; /* rose accent */
-  --raspberry: #a8445f; /* inline links, errors (5.7:1 on white) */
-  --wordmark: #c26b82; /* "Bites" wordmark, large display text only (3.9:1 on white) */
+  --cocoa: #45161c; /* brand "dark wine": text, primary buttons, footer (15.2:1 on white) */
+  --cocoa-muted: #61393e; /* cocoa at 85 %: secondary text (9.7:1 on white, 4.9:1 on sand) */
+  --raspberry: #83123f; /* brand "burgundy": logo, links, errors, WhatsApp button (9.9:1 on white) */
+  --rose: #9f4961; /* brand "rose": accent outlines, marks, focus halo. Not text on sand */
+  --caramel: #c59c67; /* brand "caramel": small details and decoration only */
+  --sand: #c6b7a2; /* brand "sand": beige surfaces such as cards, bands and placeholders */
+  --line: #e3dbd1; /* sand at 50 %: borders and dividers */
 
-  /* Pastel tiles: backgrounds for images, occasion tiles, step badges. */
-  --blush: #f8e6ea;
-  --butter: #fbf1d5;
-  --sage: #e3ebdf;
-  --lilac: #ece6f2;
-  --pink-soft: #f6dde3; /* pressed filter chip */
+  /* Tints of the brand colours, used by the pastel tiles (see lib/tones.ts). */
+  --rose-tint: #f3e9ec; /* rose at 12 % */
+  --rose-tint-strong: #ecdbdf; /* rose at 20 %: pressed filter chip */
+  --caramel-tint: #f5ede4; /* caramel at 18 % */
+  --sand-tint: #f1ede8; /* sand at 25 % */
+  --sand-tint-deep: #e8e2da; /* sand at 40 % */
 
   /* Focus ring color; dark surfaces (footer) switch it to white. */
   --focus-ring: var(--cocoa);
@@ -33,21 +33,21 @@
   --color-white: #ffffff;
   --color-transparent: transparent;
   --color-current: currentColor;
-  --color-sugar: #f7f3f0;
-  --color-line: #e7ddd8;
-  --color-cocoa: #3b2522;
-  --color-cocoa-muted: #6b5a55;
-  --color-pink: #e8a3b4;
-  --color-raspberry: #a8445f;
-  --color-wordmark: #c26b82;
-  --color-blush: #f8e6ea;
-  --color-butter: #fbf1d5;
-  --color-sage: #e3ebdf;
-  --color-lilac: #ece6f2;
-  --color-pink-soft: #f6dde3;
+  --color-cocoa: #45161c;
+  --color-cocoa-muted: #61393e;
+  --color-raspberry: #83123f;
+  --color-rose: #9f4961;
+  --color-caramel: #c59c67;
+  --color-sand: #c6b7a2;
+  --color-line: #e3dbd1;
+  --color-rose-tint: #f3e9ec;
+  --color-rose-tint-strong: #ecdbdf;
+  --color-caramel-tint: #f5ede4;
+  --color-sand-tint: #f1ede8;
+  --color-sand-tint-deep: #e8e2da;
 
-  --font-display: var(--font-bricolage), "Segoe UI", system-ui, sans-serif;
-  --font-sans: var(--font-figtree), "Segoe UI", system-ui, sans-serif;
+  --font-display: var(--font-eighties), "Segoe UI", system-ui, sans-serif;
+  --font-sans: var(--font-dm-sans), "Segoe UI", system-ui, sans-serif;
 
   /* Modular scale, ratio 1.25, base 17px. */
   --text-sm: 0.875rem;
@@ -75,13 +75,13 @@
 /* Semantic aliases. Components use these names; the raw palette stays available for exceptions. */
 @theme inline {
   --color-background: var(--color-white);
-  --color-surface: var(--color-sugar);
+  --color-surface: var(--color-sand);
   --color-foreground: var(--color-cocoa);
   --color-muted: var(--color-cocoa-muted);
   --color-border: var(--color-line);
   --color-primary: var(--color-cocoa);
   --color-primary-foreground: var(--color-white);
-  --color-accent: var(--color-pink);
+  --color-accent: var(--color-rose);
   --color-link: var(--color-raspberry);
   --color-focus: var(--color-cocoa);
 }
@@ -101,20 +101,21 @@
     line-height: 1.6;
   }
 
-  /* Bricolage Grotesque: optical size follows the font size; tighter tracking on large sizes. */
+  /* Eighties Comeback Bold for headings and display text: normal tracking, tight leading. */
   .font-display,
   h1,
   h2,
   h3 {
     font-family: var(--font-display);
-    font-optical-sizing: auto;
     font-weight: 700;
-    letter-spacing: -0.02em;
+    letter-spacing: normal;
     text-wrap: balance;
   }
 
-  h1 {
-    letter-spacing: -0.025em;
+  h1,
+  h2,
+  h3 {
+    line-height: 1.05;
   }
 
   p {
@@ -122,11 +123,11 @@
   }
 }
 
-/* Keyboard focus: pink halo inside a cocoa outline. Readable on white, sugar and (with a white outline) cocoa. */
+/* Keyboard focus: rose halo inside a cocoa outline. Readable on white, sand and (with a white outline) cocoa. */
 :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
   outline: 2px solid var(--focus-ring);
   outline-offset: 2px;
-  box-shadow: 0 0 0 2px var(--pink);
+  box-shadow: 0 0 0 2px var(--rose);
 }
 
 .on-dark {
@@ -134,13 +135,8 @@
 }
 
 ::selection {
-  background: var(--pink);
+  background: var(--rose-tint-strong);
   color: var(--cocoa);
-}
-
-/* The logo is a JPEG on white: multiply removes the white box on sugar surfaces. */
-.logo-blend {
-  mix-blend-mode: multiply;
 }
 
 /* Media frames size their placeholder icon and letter from the frame width. */

@@ -17,7 +17,7 @@ const LINKS = [
 ];
 
 /**
- * Sidebar on desktop, scrollable top tabs on mobile. Pink marks the active item only; the marker
+ * Sidebar on desktop, scrollable top tabs on mobile. Rose marks the active item only; the marker
  * slides to the new item with the shared spring when the page changes.
  */
 export function AdminNav({ layout }: { layout: "sidebar" | "tabs" }) {

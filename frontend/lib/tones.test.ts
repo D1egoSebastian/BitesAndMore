@@ -3,23 +3,23 @@ import { dessertKindOf, PASTEL_TONES, toneForCategory, toneForServiceType } from
 
 describe("toneForCategory", () => {
   it("assigns the four pastel tones to the first four categories in order", () => {
-    expect([1, 2, 3, 4].map(toneForCategory)).toEqual(["blush", "butter", "sage", "lilac"]);
+    expect([1, 2, 3, 4].map(toneForCategory)).toEqual(["rose-tint", "caramel-tint", "sand-tint", "sand-tint-deep"]);
   });
 
   it("cycles through the tones for later categories", () => {
-    expect(toneForCategory(5)).toBe("blush");
-    expect(toneForCategory(8)).toBe("lilac");
+    expect(toneForCategory(5)).toBe("rose-tint");
+    expect(toneForCategory(8)).toBe("sand-tint-deep");
   });
 
   it("is stable for the same id", () => {
     expect(toneForCategory(7)).toBe(toneForCategory(7));
   });
 
-  it("falls back to sugar when there is no valid category", () => {
-    expect(toneForCategory(null)).toBe("sugar");
-    expect(toneForCategory(undefined)).toBe("sugar");
-    expect(toneForCategory(0)).toBe("sugar");
-    expect(toneForCategory(Number.NaN)).toBe("sugar");
+  it("falls back to the sand surface when there is no valid category", () => {
+    expect(toneForCategory(null)).toBe("surface");
+    expect(toneForCategory(undefined)).toBe("surface");
+    expect(toneForCategory(0)).toBe("surface");
+    expect(toneForCategory(Number.NaN)).toBe("surface");
   });
 
   it("only ever returns a known tone", () => {
@@ -31,9 +31,9 @@ describe("toneForCategory", () => {
 
 describe("toneForServiceType", () => {
   it("gives each service type its own tone", () => {
-    expect(toneForServiceType("Reposteria")).toBe("blush");
-    expect(toneForServiceType("EventsPlanner")).toBe("butter");
-    expect(toneForServiceType("DesayunosPersonalizados")).toBe("sage");
+    expect(toneForServiceType("Reposteria")).toBe("rose-tint");
+    expect(toneForServiceType("EventsPlanner")).toBe("caramel-tint");
+    expect(toneForServiceType("DesayunosPersonalizados")).toBe("sand-tint");
   });
 });
 

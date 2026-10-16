@@ -67,7 +67,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
               )}
             >
               {toast.tone === "success" ? (
-                <CheckIcon className="mt-0.5 size-5 shrink-0 text-accent" />
+                <CheckIcon className="mt-0.5 size-5 shrink-0 text-caramel" />
               ) : (
                 <AlertIcon className="mt-0.5 size-5 shrink-0" />
               )}

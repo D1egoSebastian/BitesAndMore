@@ -35,9 +35,9 @@ const menuItem: Variants = {
 };
 
 /**
- * Main navigation. Desktop: pill links; the current page has a pink outline pill that slides
+ * Main navigation. Desktop: pill links; the current page has a rose outline pill that slides
  * between items with a shared layoutId spring when the route changes; inactive items fade in a
- * sugar background on hover. Phones: hamburger with a panel whose items enter staggered.
+ * sand-tint background on hover. Phones: hamburger with a panel whose items enter staggered.
  */
 export function SiteNav({ whatsAppUrl }: { whatsAppUrl: string | null }) {
   const pathname = usePathname();
@@ -98,7 +98,7 @@ export function SiteNav({ whatsAppUrl }: { whatsAppUrl: string | null }) {
 
       <button
         type="button"
-        className="relative inline-flex size-11 cursor-pointer items-center justify-center rounded-full border-2 border-accent bg-white transition duration-200 ease-spring hover:bg-blush active:scale-[0.94] md:hidden"
+        className="relative inline-flex size-11 cursor-pointer items-center justify-center rounded-full border-2 border-accent bg-white transition duration-200 ease-spring hover:bg-rose-tint active:scale-[0.94] md:hidden"
         aria-expanded={open}
         aria-controls={panelId}
         aria-label={open ? "Cerrar menú" : "Abrir menú"}
@@ -127,7 +127,7 @@ export function SiteNav({ whatsAppUrl }: { whatsAppUrl: string | null }) {
         {open && (
           <motion.div
             id={panelId}
-            className="absolute inset-x-0 top-full border-b border-border bg-white shadow-[0_18px_30px_-24px_rgb(59_37_34/0.5)] md:hidden"
+            className="absolute inset-x-0 top-full border-b border-border bg-white shadow-[0_18px_30px_-24px_rgb(69_22_28/0.5)] md:hidden"
             initial={{ opacity: 0, y: -8 }}
             animate={{ opacity: 1, y: 0, transition: { duration: seconds(duration.base), ease: easeOut } }}
             exit={{ opacity: 0, y: -8, transition: { duration: seconds(exitDuration(duration.base)) } }}
@@ -144,7 +144,7 @@ export function SiteNav({ whatsAppUrl }: { whatsAppUrl: string | null }) {
                         onClick={() => setOpen(false)}
                         className={cn(
                           "font-display flex min-h-14 items-center rounded-full border-2 px-5 text-xl transition-colors duration-200",
-                          active ? "border-accent" : "border-transparent active:bg-blush",
+                          active ? "border-accent" : "border-transparent active:bg-rose-tint",
                         )}
                       >
                         {link.label}

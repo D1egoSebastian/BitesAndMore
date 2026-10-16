@@ -12,7 +12,7 @@ const BITE_SECONDS = 0.45;
 /**
  * THE BITE — the site's only signature element, the frame of the home hero carousel.
  * The frame settles in (CSS, so the first photo is visible before hydration), then a bite is
- * taken out of its top-right corner (mask circles grow from 0 to full size) and the pink circle
+ * taken out of its top-right corner (mask circles grow from 0 to full size) and the rose circle
  * behind it shows through. It animates once per page load; the slides change inside it.
  * Under prefers-reduced-motion every transition has zero duration, so it renders final at once.
  * Initial values are identical on server and client to keep hydration stable.
@@ -24,7 +24,7 @@ export function HeroBite({ children }: { children: ReactNode }) {
 
   return (
     <div className="bite-frame media-enter relative">
-      {/* Pink circle peeking through the bite. It sits behind the frame and only shows where the bite is. */}
+      {/* Rose circle peeking through the bite. It sits behind the frame and only shows where the bite is. */}
       {/* Clipped to the frame so the circle never sticks out past the image edges. */}
       <span aria-hidden="true" className="absolute inset-0 overflow-hidden rounded-[1.75rem] md:rounded-[2.25rem]">
         <motion.span

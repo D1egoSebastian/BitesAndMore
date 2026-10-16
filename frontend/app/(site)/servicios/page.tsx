@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 };
 
 const chipClass =
-  "inline-flex min-h-11 shrink-0 items-center rounded-full border-[1.5px] border-border bg-white px-4 py-2 text-sm font-medium transition duration-200 ease-spring hover:border-accent hover:bg-blush active:scale-[0.97] sm:px-[1.125rem] sm:text-[0.9375rem] [touch-action:manipulation]";
+  "inline-flex min-h-11 shrink-0 items-center rounded-full border-[1.5px] border-border bg-white px-4 py-2 text-sm font-medium transition duration-200 ease-spring hover:border-accent hover:bg-rose-tint active:scale-[0.97] sm:px-[1.125rem] sm:text-[0.9375rem] [touch-action:manipulation]";
 
 export default async function ServicesPage() {
   const [services, info] = await Promise.all([loadOrFallback(() => publicApi.getServices(), []), getBusinessInfo()]);

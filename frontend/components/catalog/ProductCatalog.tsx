@@ -83,7 +83,7 @@ export function ProductCatalog({ products, filters }: ProductCatalogProps) {
                       <motion.span
                         layoutId="active-category-chip"
                         aria-hidden="true"
-                        className="absolute -inset-[1.5px] rounded-full border-[1.5px] border-accent bg-pink-soft"
+                        className="absolute -inset-[1.5px] rounded-full border-[1.5px] border-accent bg-rose-tint-strong"
                         transition={reduceMotion ? { duration: 0 } : spring}
                       />
                     )}
@@ -127,7 +127,7 @@ export function ProductCatalog({ products, filters }: ProductCatalogProps) {
           </AnimatePresence>
         </motion.ul>
       ) : (
-        <div className="mt-8 max-w-[60ch] rounded-3xl bg-butter px-6 py-8 sm:px-8">
+        <div className="mt-8 max-w-[60ch] rounded-3xl bg-caramel-tint px-6 py-8 sm:px-8">
           <p className="text-lg font-semibold">
             {active ? `Por ahora no hay productos en ${active.category.name}.` : "Estamos preparando el catálogo."}
           </p>

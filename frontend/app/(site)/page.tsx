@@ -81,7 +81,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section aria-labelledby="ocasiones" className="bg-sugar py-12 md:py-24">
+      <section aria-labelledby="ocasiones" className="bg-surface py-12 md:py-24">
         <div className={pageContainer}>
           <Reveal>
             <h2 id="ocasiones" className={sectionTitle}>
@@ -136,7 +136,7 @@ export default async function HomePage() {
       </section>
 
       {/*
-        Approved design (spec 011): heading and mission on the left, the vision on a butter tile on the
+        Approved design (spec 011): heading and mission on the left, the vision on a caramel-tint tile on the
         right (stacked on phones). The mission is also the hero subtext. Each part hides when its field is
         empty, and the whole section when both are.
       */}
@@ -152,7 +152,7 @@ export default async function HomePage() {
               )}
             </Reveal>
             {vision && (
-              <Reveal delay={0.08} className="flex flex-col gap-2 rounded-3xl bg-butter p-6 md:gap-3 md:rounded-[2rem] md:p-10">
+              <Reveal delay={0.08} className="flex flex-col gap-2 rounded-3xl bg-caramel-tint p-6 md:gap-3 md:rounded-[2rem] md:p-10">
                 <h3 className="text-[1.375rem] md:text-[1.625rem]">Nuestra visión</h3>
                 <p className="max-w-[60ch] whitespace-pre-line leading-relaxed text-muted">{vision}</p>
               </Reveal>

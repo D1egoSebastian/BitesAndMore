@@ -165,11 +165,11 @@ export function HeroCarousel({ slides }: { slides: HeroSlide[] }) {
             >
               <Link
                 href={active.caption.href}
-                className="group/caption flex items-center gap-3 rounded-full bg-white py-2 pl-2 pr-5 shadow-[0_8px_24px_-8px_rgb(59_37_34/0.25)] transition duration-200 ease-spring hover:-translate-y-0.5 sm:gap-3.5 sm:py-2.5 sm:pl-2.5 sm:pr-6"
+                className="group/caption flex items-center gap-3 rounded-full bg-white py-2 pl-2 pr-5 shadow-[0_8px_24px_-8px_rgb(69_22_28/0.25)] transition duration-200 ease-spring hover:-translate-y-0.5 sm:gap-3.5 sm:py-2.5 sm:pl-2.5 sm:pr-6"
               >
                 <span
                   aria-hidden="true"
-                  className="flex size-8 shrink-0 items-center justify-center rounded-full bg-blush sm:size-9"
+                  className="flex size-8 shrink-0 items-center justify-center rounded-full bg-rose-tint sm:size-9"
                 >
                   <CheckIcon className="size-[1.125rem]" />
                 </span>
@@ -290,7 +290,7 @@ function Slide({ slide, label, active, playing, reduceMotion, preload }: SlidePr
   );
 }
 
-/** Active dot: a pink fill that grows with the slide's progress; shows full when not autoplaying. */
+/** Active dot: a rose fill that grows with the slide's progress; shows full when not autoplaying. */
 function DotFill({ progress, full }: { progress: MotionValue<number>; full: boolean }) {
   return (
     <motion.span
@@ -321,7 +321,7 @@ function ControlButton({
       whileHover={{ scale: 1.08 }}
       whileTap={{ scale: 0.92 }}
       transition={spring}
-      className="inline-flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-full bg-white text-cocoa shadow-[0_4px_14px_-2px_rgb(59_37_34/0.18)] [touch-action:manipulation]"
+      className="inline-flex size-11 shrink-0 cursor-pointer items-center justify-center rounded-full bg-white text-cocoa shadow-[0_4px_14px_-2px_rgb(69_22_28/0.18)] [touch-action:manipulation]"
     >
       {children}
     </motion.button>

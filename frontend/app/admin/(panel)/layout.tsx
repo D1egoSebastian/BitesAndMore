@@ -25,7 +25,7 @@ export default async function PanelLayout({ children }: LayoutProps<"/admin">) {
       <div className="min-h-screen w-full bg-white md:grid md:grid-cols-[15rem_minmax(0,1fr)]">
         <aside className="sticky top-0 hidden h-screen flex-col gap-8 border-r border-border bg-surface px-4 py-6 md:flex">
           <Link href="/admin" className="self-start rounded-full px-2 py-1" aria-label="Inicio del panel">
-            <Wordmark className="text-[1.75rem]" />
+            <Wordmark alt="" className="h-12" />
           </Link>
           <AdminNav layout="sidebar" />
           <div className="mt-auto flex flex-col items-start gap-1">
@@ -41,7 +41,7 @@ export default async function PanelLayout({ children }: LayoutProps<"/admin">) {
           <header className="border-b border-border bg-white px-4 pt-2 md:hidden">
             <div className="flex items-center justify-between">
               <Link href="/admin" className="rounded-full px-1 py-2" aria-label="Inicio del panel">
-                <Wordmark className="text-2xl" tagline={false} />
+                <Wordmark alt="" className="h-11" />
               </Link>
               <LogoutButton />
             </div>

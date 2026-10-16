@@ -96,7 +96,7 @@ export default async function ContactPage() {
               <dl className="mt-8 divide-y divide-border border-y border-border">
                 {items.map((item) => (
                   <div key={item.key} className="flex gap-4 py-5">
-                    <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-blush">
+                    <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-rose-tint">
                       {item.icon}
                     </span>
                     <div className="min-w-0">
@@ -110,7 +110,7 @@ export default async function ContactPage() {
           )}
         </div>
 
-        <aside aria-labelledby="como-funciona" className="self-start rounded-[2rem] bg-butter p-6 sm:p-8 md:mt-2">
+        <aside aria-labelledby="como-funciona" className="self-start rounded-[2rem] bg-caramel-tint p-6 sm:p-8 md:mt-2">
           <Reveal delay={scrollStaggerDelay(1)}>
             <h2 id="como-funciona" className="text-2xl">
               Cómo funcionan los pedidos

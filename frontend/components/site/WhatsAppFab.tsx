@@ -7,7 +7,7 @@ import { duration, exitDuration, spring } from "@/lib/motion";
 import { usePrefersReducedMotion } from "@/components/motion/useReducedMotion";
 
 /**
- * Floating WhatsApp action for phones (rose pill, "Pedir") (hidden from md up, where the header has the button).
+ * Floating WhatsApp action for phones (raspberry pill, "Pedir") (hidden from md up, where the header has the button).
  * Only rendered when a number is configured, and never on product pages, which have their own
  * sticky order bar. Springs in after 1 s so it does not compete with the page entrance; it sits
  * above the bottom safe area.
@@ -26,7 +26,7 @@ export function WhatsAppFab({ whatsAppUrl }: { whatsAppUrl: string | null }) {
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Pedir por WhatsApp"
-          className="fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-4 z-20 inline-flex h-[3.25rem] items-center justify-center gap-2 rounded-full bg-accent px-6 font-semibold text-foreground shadow-[0_10px_24px_-6px_rgb(59_37_34/0.4)] [touch-action:manipulation] md:hidden"
+          className="fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-4 z-20 inline-flex h-[3.25rem] items-center justify-center gap-2 rounded-full bg-raspberry px-6 font-semibold text-white shadow-[0_10px_24px_-6px_rgb(69_22_28/0.4)] [touch-action:manipulation] md:hidden"
           initial={{ opacity: 0, scale: 0.5, y: 16 }}
           animate={{
             opacity: 1,

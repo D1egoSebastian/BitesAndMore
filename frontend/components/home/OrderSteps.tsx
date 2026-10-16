@@ -14,7 +14,7 @@ type OrderStepsProps = {
 /** Time between one step and the next while the sequence plays. */
 const STEP_SECONDS = 0.35;
 /** Pastel fill of each numbered badge. */
-const BADGE_TONES = ["bg-blush", "bg-butter", "bg-sage"] as const;
+const BADGE_TONES = ["bg-rose-tint", "bg-caramel-tint", "bg-sand-tint"] as const;
 /** Bouncier variant of the motion spring, for the number badges popping in. */
 const POP = { type: "spring", stiffness: 380, damping: 18 } as const;
 
@@ -40,7 +40,7 @@ function orderSteps(hasWhatsApp: boolean) {
 /**
  * The real ordering sequence. Numbered because order matters.
  * "wide" plays the sequence when it scrolls into view: each number pops in with a spring, its
- * text rises, and a pink line draws (SVG pathLength 0 → 1) towards the next step, so the eye
+ * text rises, and a rose line draws (SVG pathLength 0 → 1) towards the next step, so the eye
  * follows 1 → 2 → 3. Vertical line on phones, horizontal from tablet up.
  */
 export function OrderSteps({ hasWhatsApp, variant = "wide", headingLevel = "h3" }: OrderStepsProps) {

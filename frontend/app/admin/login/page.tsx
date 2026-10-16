@@ -10,8 +10,8 @@ export default async function LoginPage({ searchParams }: PageProps<"/admin/logi
   return (
     <main className="flex flex-1 items-center justify-center bg-surface px-4 py-12">
       <div className="w-full max-w-md rounded-2xl border border-border bg-white px-6 py-10 sm:px-10">
-        <p className="text-center text-4xl">
-          <Wordmark />
+        <p className="flex justify-center">
+          <Wordmark className="h-16" />
         </p>
         <h1 className="mt-6 text-center text-2xl sm:text-3xl">Iniciar sesión</h1>
         <p className="mt-1 text-center text-muted">Panel de administración</p>

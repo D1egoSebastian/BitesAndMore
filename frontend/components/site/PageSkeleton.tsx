@@ -2,7 +2,7 @@ import { productGrid } from "@/components/catalog/ProductCard";
 import { pageContainer } from "@/components/ui/styles";
 import { cn } from "@/lib/cn";
 
-/** Loading state: sugar blocks shaped like the page that is coming. */
+/** Loading state: sand blocks shaped like the page that is coming. */
 export function PageSkeleton({ variant = "grid" }: { variant?: "grid" | "rows" }) {
   return (
     <div className={`${pageContainer} pb-20 pt-8 sm:pt-12`} role="status" aria-live="polite">

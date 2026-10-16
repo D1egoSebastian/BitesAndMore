@@ -152,7 +152,7 @@ export function ImageUpload({
             onChange={handleChange}
             disabled={uploading}
           />
-          <label htmlFor={inputId} className={`${buttonSecondary} cursor-pointer peer-focus-visible:shadow-[0_0_0_2px_var(--pink)] peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-cocoa peer-focus-visible:outline-solid ${uploading ? "pointer-events-none opacity-60" : ""}`}>
+          <label htmlFor={inputId} className={`${buttonSecondary} cursor-pointer peer-focus-visible:shadow-[0_0_0_2px_var(--rose)] peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-cocoa peer-focus-visible:outline-solid ${uploading ? "pointer-events-none opacity-60" : ""}`}>
             {url ? "Cambiar imagen" : "Elegir imagen"}
           </label>
           {url && !uploading && (

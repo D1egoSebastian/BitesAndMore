@@ -239,7 +239,7 @@ export function ServiceGallery({ serviceId, images }: { serviceId: number; image
           htmlFor={inputId}
           className={cn(
             buttonSecondary,
-            "cursor-pointer peer-focus-visible:shadow-[0_0_0_2px_var(--pink)] peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-cocoa peer-focus-visible:outline-solid",
+            "cursor-pointer peer-focus-visible:shadow-[0_0_0_2px_var(--rose)] peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-cocoa peer-focus-visible:outline-solid",
             (uploading || full) && "pointer-events-none opacity-60",
           )}
         >

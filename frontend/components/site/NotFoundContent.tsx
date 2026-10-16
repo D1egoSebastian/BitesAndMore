@@ -5,7 +5,7 @@ import { buttonPrimary, buttonText, pageContainer, pageTitle } from "@/component
 export function NotFoundContent() {
   return (
     <div className={`${pageContainer} pb-24 pt-12 sm:pt-20`}>
-      <div className="flex size-14 items-center justify-center rounded-full bg-blush">
+      <div className="flex size-14 items-center justify-center rounded-full bg-rose-tint">
         <CookieIcon className="size-7" />
       </div>
       <h1 className={`mt-6 ${pageTitle}`}>No encontramos esta página</h1>

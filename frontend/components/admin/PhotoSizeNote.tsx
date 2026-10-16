@@ -7,7 +7,7 @@ import { cn } from "@/lib/cn";
  */
 export function PhotoSizeNote({ message, className }: { message: string; className?: string }) {
   return (
-    <p className={cn("flex max-w-[52ch] items-start gap-2 rounded-xl bg-butter px-3.5 py-2.5 text-sm", className)}>
+    <p className={cn("flex max-w-[52ch] items-start gap-2 rounded-xl bg-caramel-tint px-3.5 py-2.5 text-sm", className)}>
       <AlertIcon className="mt-0.5 size-4 shrink-0" />
       <span>{message}</span>
     </p>

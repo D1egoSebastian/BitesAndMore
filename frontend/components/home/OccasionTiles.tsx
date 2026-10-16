@@ -53,7 +53,7 @@ export function OccasionTiles({ services }: { services: Service[] }) {
                 )}
               >
                 {cover ? (
-                  <div className="absolute inset-0 overflow-hidden rounded-3xl bg-white/40 shadow-[0_14px_30px_-14px_rgb(59_37_34/0.45)]">
+                  <div className="absolute inset-0 overflow-hidden rounded-3xl bg-white/40 shadow-[0_14px_30px_-14px_rgb(69_22_28/0.45)]">
                     <AdaptiveImage src={cover} alt="" sizes={large ? "230px" : "136px"} />
                   </div>
                 ) : (

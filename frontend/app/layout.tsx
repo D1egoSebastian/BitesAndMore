@@ -1,18 +1,23 @@
 import type { Metadata, Viewport } from "next";
-import { Bricolage_Grotesque, Figtree } from "next/font/google";
+import localFont from "next/font/local";
 import { MotionProvider } from "@/components/motion/MotionProvider";
 import "./globals.css";
 
-const bricolage = Bricolage_Grotesque({
-  subsets: ["latin", "latin-ext"],
-  axes: ["opsz"],
-  variable: "--font-bricolage",
+/* Brand display face (headings). Only the Bold weight is used. */
+const eighties = localFont({
+  src: "./fonts/EightiesComeback-Bold.otf",
+  weight: "700",
+  style: "normal",
+  variable: "--font-eighties",
   display: "swap",
 });
 
-const figtree = Figtree({
-  subsets: ["latin", "latin-ext"],
-  variable: "--font-figtree",
+/* Body and interface face: DM Sans variable font, weights 400 to 700. */
+const dmSans = localFont({
+  src: "./fonts/DMSans-Variable.ttf",
+  weight: "400 700",
+  style: "normal",
+  variable: "--font-dm-sans",
   display: "swap",
 });
 
@@ -31,7 +36,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="es" className={`${bricolage.variable} ${figtree.variable} h-full antialiased`}>
+    <html lang="es" className={`${eighties.variable} ${dmSans.variable} h-full antialiased`}>
       <body className="flex min-h-full flex-col">
         <MotionProvider>{children}</MotionProvider>
       </body>

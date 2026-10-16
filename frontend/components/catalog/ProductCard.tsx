@@ -29,7 +29,7 @@ export function ProductCard({ product, preload = false }: { product: Product; pr
         >
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute inset-x-4 bottom-4 hidden h-11 translate-y-[4.5rem] items-center justify-center rounded-full bg-white text-sm font-semibold opacity-0 shadow-[0_6px_18px_-8px_rgb(59_37_34/0.35)] transition duration-400 ease-out-soft group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100 sm:flex"
+            className="pointer-events-none absolute inset-x-4 bottom-4 hidden h-11 translate-y-[4.5rem] items-center justify-center rounded-full bg-white text-sm font-semibold opacity-0 shadow-[0_6px_18px_-8px_rgb(69_22_28/0.35)] transition duration-400 ease-out-soft group-hover:translate-y-0 group-hover:opacity-100 group-focus-visible:translate-y-0 group-focus-visible:opacity-100 sm:flex"
           >
             Ver detalle
           </span>

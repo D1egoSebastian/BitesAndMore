@@ -28,15 +28,15 @@ function Cake({ className }: ArtProps) {
 function Cupcake({ className }: ArtProps) {
   return (
     <svg viewBox="0 0 200 200" aria-hidden="true" className={className}>
-      <path d="M58 118h84l-10 50H68z" fill="#E8A3B4" />
+      <path d="M58 118h84l-10 50H68z" fill="#CFA4B0" />
       <path d="M78 118l4 50M100 118v50M122 118l-4 50" stroke="#fff" strokeWidth="3" opacity=".6" />
       <ellipse cx="100" cy="116" rx="46" ry="14" fill="#fff" />
       <ellipse cx="100" cy="94" rx="36" ry="16" fill="#fff" />
       <ellipse cx="100" cy="72" rx="24" ry="14" fill="#fff" />
       <circle cx="100" cy="52" r="8" fill="#C94F6D" />
-      <circle cx="82" cy="98" r="2.5" fill="#E8A3B4" />
+      <circle cx="82" cy="98" r="2.5" fill="#CFA4B0" />
       <circle cx="118" cy="92" r="2.5" fill="#8FAE8B" />
-      <circle cx="104" cy="112" r="2.5" fill="#D9A066" />
+      <circle cx="104" cy="112" r="2.5" fill="#C59C67" />
     </svg>
   );
 }
@@ -44,7 +44,7 @@ function Cupcake({ className }: ArtProps) {
 function Cookie({ className }: ArtProps) {
   return (
     <svg viewBox="0 0 200 200" aria-hidden="true" className={className}>
-      <circle cx="100" cy="104" r="64" fill="#D9A066" />
+      <circle cx="100" cy="104" r="64" fill="#C59C67" />
       <circle cx="100" cy="104" r="64" fill="none" stroke="#C48C52" strokeWidth="4" strokeDasharray="3 9" />
       <circle cx="74" cy="84" r="8" fill="#5A3A30" />
       <circle cx="116" cy="76" r="7" fill="#5A3A30" />
@@ -59,7 +59,7 @@ function Cookie({ className }: ArtProps) {
 function Flan({ className }: ArtProps) {
   return (
     <svg viewBox="0 0 200 200" aria-hidden="true" className={className}>
-      <path d="M46 120h108l-10 38H56z" fill="#D9A066" />
+      <path d="M46 120h108l-10 38H56z" fill="#C59C67" />
       <ellipse cx="100" cy="120" rx="54" ry="14" fill="#E9B97E" />
       <path d="M52 118c4-28 28-40 48-40s44 12 48 40z" fill="#F3C98B" />
     </svg>
@@ -93,7 +93,7 @@ function Celebration({ className }: ArtProps) {
 function Confetti({ className }: ArtProps) {
   return (
     <svg viewBox="0 0 200 200" aria-hidden="true" className={className}>
-      <circle cx="60" cy="110" r="38" fill="#E8A3B4" />
+      <circle cx="60" cy="110" r="38" fill="#CFA4B0" />
       <circle cx="130" cy="96" r="30" fill="#fff" />
       <circle cx="104" cy="148" r="26" fill="#8FAE8B" opacity=".8" />
     </svg>
@@ -104,11 +104,11 @@ function Gift({ className }: ArtProps) {
   return (
     <svg viewBox="0 0 200 200" aria-hidden="true" className={className}>
       <rect x="30" y="80" width="140" height="80" rx="14" fill="#fff" />
-      <path d="M30 106h140" stroke="#E8A3B4" strokeWidth="10" />
+      <path d="M30 106h140" stroke="#CFA4B0" strokeWidth="10" />
       <path
         d="M100 80c-18-30-48-14-30 6M100 80c18-30 48-14 30 6"
         fill="none"
-        stroke="#E8A3B4"
+        stroke="#CFA4B0"
         strokeWidth="8"
         strokeLinecap="round"
       />

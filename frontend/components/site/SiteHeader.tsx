@@ -16,10 +16,10 @@ export function SiteHeader({ businessName, whatsAppUrl }: SiteHeaderProps) {
       <div className={`${pageContainer} flex h-[4.25rem] items-center justify-between gap-4 sm:h-[4.75rem]`}>
         <Link
           href="/"
-          className="-ml-1 shrink-0 rounded-full px-1 py-1.5 text-[1.75rem] sm:text-[1.875rem]"
+          className="-ml-1 shrink-0 rounded-full px-1 py-1.5"
           aria-label={`${businessName}, ir al inicio`}
         >
-          <Wordmark />
+          <Wordmark alt="" className="h-11 sm:h-16" />
         </Link>
         <SiteNav whatsAppUrl={whatsAppUrl} />
       </div>

@@ -42,7 +42,7 @@ export function MediaImage({
   sizes,
   aspect = "aspect-[4/5]",
   rounded = "rounded-3xl",
-  tone = "sugar",
+  tone = "surface",
   art,
   className,
   imageClassName,
@@ -70,7 +70,7 @@ export function ImagePlaceholder({
   name,
   label,
   art,
-  tone = "sugar",
+  tone = "surface",
 }: {
   name: string | null;
   label: string;

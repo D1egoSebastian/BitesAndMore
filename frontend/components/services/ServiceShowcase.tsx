@@ -167,7 +167,7 @@ export function ServiceCarousel({ anchor, name, type, description, price, cta, s
       aria-labelledby={isCarousel ? undefined : titleId}
       aria-label={isCarousel ? name : undefined}
       aria-roledescription={isCarousel ? "carrusel" : undefined}
-      className="relative isolate flex min-h-[35rem] scroll-mt-20 flex-col justify-end overflow-hidden bg-sugar touch-pan-y sm:scroll-mt-24 md:min-h-[41.25rem]"
+      className="relative isolate flex min-h-[35rem] scroll-mt-20 flex-col justify-end overflow-hidden bg-surface touch-pan-y sm:scroll-mt-24 md:min-h-[41.25rem]"
       onPointerEnter={onPointerEnter}
       onPointerLeave={onPointerLeave}
       onFocus={onFocus}

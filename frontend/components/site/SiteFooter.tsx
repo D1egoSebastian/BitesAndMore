@@ -5,7 +5,8 @@ import { buildSocialUrl, buildWhatsAppContactUrl } from "@/lib/contact";
 import { displayText } from "@/lib/format";
 import { Reveal } from "@/components/motion/Reveal";
 import { FacebookIcon, InstagramIcon, PhoneIcon, WhatsAppIcon } from "@/components/ui/icons";
-import { buttonRose, pageContainer } from "@/components/ui/styles";
+import { Wordmark } from "@/components/brand/Wordmark";
+import { buttonWhatsApp, pageContainer } from "@/components/ui/styles";
 import { scrollStaggerDelay } from "@/lib/motion";
 
 type FooterContact = { href: string; label: string; icon: ReactNode; external: boolean };
@@ -13,7 +14,7 @@ type FooterContact = { href: string; label: string; icon: ReactNode; external: b
 const footerLink =
   "group/link inline-flex min-h-11 items-center gap-2.5 rounded-md text-white/85 transition-colors duration-200 hover:text-white";
 
-/** Pink underline that draws from left to right on hover and keyboard focus (transform only). */
+/** Rose underline that draws from left to right on hover and keyboard focus (transform only). */
 function LinkLabel({ children }: { children: ReactNode }) {
   return (
     <span className="relative after:absolute after:inset-x-0 after:-bottom-1 after:h-0.5 after:origin-left after:scale-x-0 after:rounded-full after:bg-accent after:transition-transform after:duration-300 after:ease-out-soft group-hover/link:after:scale-x-100 group-focus-visible/link:after:scale-x-100">
@@ -29,7 +30,7 @@ const NAV_LINKS = [
   { href: "/contacto", label: "Contacto" },
 ];
 
-/** Cocoa footer with white text: text wordmark, rose WhatsApp button (when configured), navigation and contact. */
+/** Cocoa footer with white text: white logo, raspberry WhatsApp button (when configured), navigation and contact. */
 export function SiteFooter({ info, businessName }: { info: BusinessInfo | null; businessName: string }) {
   const whatsApp = buildWhatsAppContactUrl(info?.whatsAppNumber);
   const phone = displayText(info?.phoneNumber);
@@ -47,10 +48,10 @@ export function SiteFooter({ info, businessName }: { info: BusinessInfo | null; 
       <div className={`${pageContainer} grid gap-10 pb-10 pt-14 sm:grid-cols-2 sm:pt-[4.5rem] lg:grid-cols-[1.4fr_1fr_1fr] lg:gap-12`}>
         {/* The three blocks rise one after another as the footer comes into view (spec 013). */}
         <Reveal className="flex flex-col items-start gap-4">
-          <p className="font-display text-[1.875rem] font-bold leading-none sm:text-4xl">{businessName}</p>
+          <Wordmark inverse alt={businessName} className="h-14" />
           <p className="max-w-[36ch] text-white/80">Postres caseros por encargo.</p>
           {whatsApp && (
-            <a href={whatsApp} target="_blank" rel="noopener noreferrer" className={buttonRose}>
+            <a href={whatsApp} target="_blank" rel="noopener noreferrer" className={buttonWhatsApp}>
               Pedir por WhatsApp
             </a>
           )}
